@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Hello
  */
-@WebServlet("/boletim")
+@WebServlet (urlPatterns = {"/newsletters","/diseases","/vaccines","/observations"})
+
+
 public class Boletim extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,12 +32,31 @@ public class Boletim extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		try {
-			response.getWriter().append((ConnectionDB.SelectQuery("Boletins")));
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		System.out.println(request.getRequestURI());
+		
+		switch(request.getRequestURI())
+		{
+		case "/SafePetDAI/newsletters":
+			
+			try {
+				response.getWriter().append((ConnectionDB.SelectQuery("Boletins")));
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+		case "/SafePetDAI/diseases":
+			
+			try {
+				response.getWriter().append((ConnectionDB.SelectQuery("Doencas")));
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		}
+
 	}
 
 	/**
