@@ -156,14 +156,31 @@ public class Animal extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String idcoluna = "";
+		String id = "";
+		String table = "";
+		
+		switch(request.getRequestURI()) {
+		case "/SafePetDAI/animals":
+			String id_ani = request.getParameter("id_animal");
+			table = "Animais";
+			idcoluna = "id_animal";
+			id = id_ani;
+			System.out.println(id);
+		}
+		try {
+			ConnectionDB.DeleteQuery(idcoluna, id, table);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 }

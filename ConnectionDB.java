@@ -88,4 +88,15 @@ public class ConnectionDB {
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.executeQuery();		
 	}
+	
+	public static void DeleteQuery(String idcoluna, String id, String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+		
+		String query = "DELETE FROM " + table + " WHERE " + idcoluna + " = " + id;
+		
+		System.out.println(query);
+		PreparedStatement sp = connection.prepareStatement(query);
+		sp.executeQuery();
+	}
 }
