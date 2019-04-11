@@ -56,6 +56,23 @@ public class Boletim extends HttpServlet {
 		out.close();
 		System.out.println("FUNCIONA CARALHO");
 		
+		String s[] = {"adotada","isabel"};
+		Object o[] = {"hello", 69};
+		try {
+			ConnectionDB.InsertQuery("ola", s, o);
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
