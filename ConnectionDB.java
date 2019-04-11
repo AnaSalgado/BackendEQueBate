@@ -46,6 +46,39 @@ public class ConnectionDB {
 		return s;
 	}
 	
+	
+	public static void UpdateQuery(String table,String[] campos, Object[] valores, String campo_id, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+		
+		String query = "UPDATE " + table + " SET ";
+		
+		for (int i = 0; i < campos.length; i++) {
+			
+			query += campos[i] + " = '" + valores[i] + "'";			
+			
+			if (i != campos.length-1)
+			{
+				query += ", ";
+			}
+		}
+		
+		query += "WHERE " + campo_id + " = " + id; 
+	}
+		
+		
+	public static void DeleteQuery(String idcoluna, String id, String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+		
+		String query = "DELETE FROM " + table + " WHERE " + idcoluna + " = " + id;
+		
+		System.out.println(query);
+		PreparedStatement sp = connection.prepareStatement(query);
+		sp.executeQuery();
+	}
+	
 	public static void InsertQuery(String table, String[] colunas, Object[] valores) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -87,16 +120,5 @@ public class ConnectionDB {
 		
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.executeQuery();		
-	}
-	
-	public static void DeleteQuery(String idcoluna, String id, String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-		
-		String query = "DELETE FROM " + table + " WHERE " + idcoluna + " = " + id;
-		
-		System.out.println(query);
-		PreparedStatement sp = connection.prepareStatement(query);
-		sp.executeQuery();
 	}
 }
