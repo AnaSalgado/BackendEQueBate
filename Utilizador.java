@@ -61,7 +61,7 @@ public class Utilizador extends HttpServlet {
 		
 		case "/SafePetDAI/vets" :
 		System.out.println("FUNCIONA CARALHO");
-		String id_vet = request.getParameter("id_vet");
+		String id_vet = request.getParameter("id_vet"); //os que estao em "" sao para dar ao front
 		String nome_vet = request.getParameter("nome_vet");
 		String data_nasc_vet = request.getParameter("data_nasc_vet");
 		String pass_vet = request.getParameter("pass_vet");
@@ -71,6 +71,7 @@ public class Utilizador extends HttpServlet {
 		String id_seg = request.getParameter("id_seg");
 		
 		table = "Veterinarios";
+		//nomes da BD
 		String c[] = {"id_vet", "nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg"};
 		colunas = c;
 		Object v[] = {id_vet, nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg};
@@ -86,7 +87,7 @@ public class Utilizador extends HttpServlet {
 		String password_dono = request.getParameter("password_dono");
 		
 		table = "Donos";
-		String a[] = {"id_dono", "nome_dono", "morada_vet", "telemovel_vet",  "email_vet", "pass_vet"};
+		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono"};
 		colunas = a;
 		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono};
 		valores = b;		
@@ -100,7 +101,7 @@ public class Utilizador extends HttpServlet {
 		String pass_seg = request.getParameter("pass_seg");
 		
 		table = "Seguradoras";
-		String d[] = {"id_seg", "nome_seg", "morada_seg", "telemovel_seg",  "email_seg", "pass_seg"};
+		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg"};
 		colunas = d;
 		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg};
 		valores = e;
@@ -114,6 +115,51 @@ public class Utilizador extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+	}
+	
+	protected void doDelete (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String idcoluna = "";
+		String id = "";
+		String table = "";
+		String url = request.getRequestURI();
+		String route = "";
+		String split_url[] = url.split("/");
+		for (int i = 0; i < split_url.length; i++) 
+		{ 
+			if (i < 2)
+				route += "/" + split_url[i+1];
+			else if (i == 3)
+				id = split_url[i];
+		}
+		
+		System.out.println(route);
+		System.out.println(id);
+		switch(route) 
+		{
+			case "/SafePetDAI/vets":
+				table = "Veterinarios";
+				idcoluna = "id_vet";
+				System.out.println(id);
+				break;
+				
+			case "/SafePetDAI/owners":
+				table = "Donos";
+				idcoluna = "id_dono";
+				break;
+				
+			case "/SafePetDAI/insurers":
+				table = "Seguradoras";
+				idcoluna = "id_seg";
+				break;
+		}
+		
+		try {
+			ConnectionDB.DeleteQuery(idcoluna, id, table);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
 	}
 
 }
