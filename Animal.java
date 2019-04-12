@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Animal
  */
-@WebServlet (urlPatterns = {"/animals", "/newsletters","/diseases","/vaccines","/observations"})
-
+@WebServlet (urlPatterns = {"/animals/*", "/newsletters/*","/diseases/*","/vaccines/*","/observations/*"})
 public class Animal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -166,15 +165,49 @@ public class Animal extends HttpServlet {
 		String idcoluna = "";
 		String id = "";
 		String table = "";
+		String url = request.getRequestURI();
+		String route = "";
+		String split_url[] = url.split("/");
 		
-		switch(request.getRequestURI()) {
-		case "/SafePetDAI/animals":
-			String id_ani = request.getParameter("id_animal");
-			table = "Animais";
-			idcoluna = "id_animal";
-			id = id_ani;
-			System.out.println(id);
+		for (int i = 0; i < split_url.length; i++) 
+		{ 
+			if (i < 2)
+				route += "/" + split_url[i+1];
+			else if (i == 3)
+				id = split_url[i];
 		}
+		
+		System.out.println(route);
+		System.out.println(id);
+		switch(route) 
+		{
+			case "/SafePetDAI/animals":
+				table = "Animais";
+				idcoluna = "id_animal";
+				System.out.println(id);
+				break;
+				
+			case "/SafePetDAI/newsletters":
+				table = "Boletins";
+				idcoluna = "id_bol";
+				break;
+				
+			case "/SafePetDAI/diseases":
+				table = "Doencas";
+				idcoluna = "id_doenca";
+				break;
+				
+			case "/SafePetDAI/vaccines":
+				table = "Vacinas";
+				idcoluna = "id_vacina";
+				break;
+				
+			case "/SafePetDAI/observations":
+				table = "Observacoes";
+				idcoluna = "id_obser";
+				break;
+		}
+		
 		try {
 			ConnectionDB.DeleteQuery(idcoluna, id, table);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
