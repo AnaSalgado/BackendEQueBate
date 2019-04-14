@@ -140,14 +140,17 @@ public class Alerta extends HttpServlet {
 		String valores_campos[]= {};
 		String url = request.getRequestURI();
 		String route ="";
+		String a = "/?";
+		String b = "=";
+		String c = "&";
 		String split_url[] = url.split("/");
-		String a = String.valueOf (new char[] {'?', '&'});
-	    String b = String.valueOf (new char[] {'='});
+	
 		
 	    
 		Map<String,String> valores = new HashMap<String, String>();
 	     
 	    String[] url_split = url.split(a);
+	    url_split = url_split[1].split(c);
 	    
 	    for (int i=1; i<url_split.length; i++)
 	    { 
@@ -165,15 +168,23 @@ public class Alerta extends HttpServlet {
 			else if (i == 3)
 				id = split_url[i];
 		}
+	    
 		
-		
+	/*    for(String s: valores.values())
+	    {
+	    	System.out.println(s);
+	    }
+	    
+	    */
 	switch(route){
 		case "/SafePetDAI/alerts":
 		table = "Alertas";
-		String titulo_alerta = request.getParameter("titulo_alerta");
-		String descricao_alerta = request.getParameter("descricao_alerta");
-		String data_alerta = request.getParameter("data_alerta");
-		String hora_alerta = request.getParameter("hora_alert");
+		String titulo_alerta = valores.get("titulo_alerta");
+		String descricao_alerta = valores.get("descricao_alerta");
+		String data_alerta = valores.get("data_alerta");
+		String hora_alerta = valores.get("hora_alert");
+		
+		System.out.println(titulo_alerta + "\n" + descricao_alerta + "\n" +  data_alerta + "\n" + hora_alerta);
 		 
 	    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
 	    campos = t; 
@@ -181,24 +192,24 @@ public class Alerta extends HttpServlet {
 	    valores_campos = g;
 	    
 	    campo_id = "id_alerta";
-		id = request.getParameter("id_alerta");
+		id = valores.get("id_alerta");
 	    break;
 		 
 	    
 	    
 		case "/SafePetDAI/alertsituations":
 			table = "SituacoesAlerta";
-			String titulo_sit = request.getParameter("titulo_sit");
-			String descricao_sit= request.getParameter("descricao_sit");
-			String id_seg = request.getParameter("id_seg");	
+			String titulo_sit = valores.get("titulo_sit");
+			String descricao_sit= valores.get("descricao_sit");
+			String id_seg = valores.get("id_seg");	
 	    
-			String c[] = {"titulo_sit","descricao_sit", "id_seg"}; 
-		    campos = c;
+			String u[] = {"titulo_sit","descricao_sit", "id_seg"}; 
+		    campos = u;
 		    String v[]= {titulo_sit, descricao_sit, id_seg};
 		    valores_campos = v;
 		    
 		    campo_id = "id_sit";
-		    id = request.getParameter("id_sit");
+		    id = valores.get("id_sit");
 		    break;
 		    
 		
@@ -206,11 +217,11 @@ public class Alerta extends HttpServlet {
 		case "/SafePetDAI/usercriteria":
 			table = "CriteriosUtilizador";    
 		   
-			String ritmo_min = request.getParameter("ritmo_min");
-			String ritmo_max = request.getParameter("ritmo_max");
-		    String raio = request.getParameter("raio");
-			String latitude = request.getParameter("latitude");
-			String longitude = request.getParameter("longitude");
+			String ritmo_min = valores.get("ritmo_min");
+			String ritmo_max = valores.get("ritmo_max");
+		    String raio = valores.get("raio");
+			String latitude = valores.get("latitude");
+			String longitude = valores.get("longitude");
 		    
 		   String d[] = {"ritmo_min", "ritmo_max", "raio", "latitude", "longitude"};
 		   campos = d;
@@ -218,7 +229,7 @@ public class Alerta extends HttpServlet {
 		   valores_campos = e;
 		   
 		   campo_id = "id_animal";
-		   id = request.getParameter("id_animal");
+		   id = valores.get("id_animal");
 		   break;
 		    }
 		 
