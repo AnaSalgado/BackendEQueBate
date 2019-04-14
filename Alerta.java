@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Map;
+import java.util.*;
 /**
  * Servlet implementation class Alerta
  */
-@WebServlet (urlPatterns = {"/alerts", "/alertsituations", "/usercriteria"}, initParams = {
+@WebServlet (urlPatterns = {"/alerts/*", "/alertsituations/*", "/usercriteria/*"}, initParams = {
 		@WebInitParam(name = "readonly", value = "false")	
 })
 public class Alerta extends HttpServlet {
@@ -131,29 +133,41 @@ public class Alerta extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		String table = "";
-		String campos[] = {};
-		Object valores[] = {};
 		String campo_id = "";
-		String id = "";
+		String id= "";
+		String campos[] = {};
+		String valores_campos[]= {};
 		String url = request.getRequestURI();
-		String route = "";
+		String route ="";
 		String split_url[] = url.split("/");
+		String a = String.valueOf (new char[] {'?', '&'});
+	    String b = String.valueOf (new char[] {'='});
 		
-		
-		for (int i=0; i < split_url.length; i++)
-		{
-		    if (i < 2)
-		    	route += "/" + split_url[i+1];
-		    else if (i==3)
-		    	id = split_url[i];
+	    
+		Map<String,String> valores = new HashMap<String, String>();
+	     
+	    String[] url_split = url.split(a);
+	    
+	    for (int i=1; i<url_split.length; i++)
+	    { 
+	    	System.out.println("---------");
+	    	System.out.println(url_split[i]);
+	    	
+	    	String[] url_values = url_split[i].split(b);
+	    	valores.put(url_values[0], url_values[1]);
+	    }
+	    
+	   
+	    for (int i=0; i < split_url.length; i++) {
+			if (i < 2)
+				route += "/" + split_url[i+1];
+			else if (i == 3)
+				id = split_url[i];
 		}
 		
-		System.out.println(route);
-		System.out.println(id);
-		switch(route){
 		
+	switch(route){
 		case "/SafePetDAI/alerts":
 		table = "Alertas";
 		String titulo_alerta = request.getParameter("titulo_alerta");
@@ -164,7 +178,7 @@ public class Alerta extends HttpServlet {
 	    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
 	    campos = t; 
 	    String g[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta};
-	    valores = g;
+	    valores_campos = g;
 	    
 	    campo_id = "id_alerta";
 		id = request.getParameter("id_alerta");
@@ -181,7 +195,7 @@ public class Alerta extends HttpServlet {
 			String c[] = {"titulo_sit","descricao_sit", "id_seg"}; 
 		    campos = c;
 		    String v[]= {titulo_sit, descricao_sit, id_seg};
-		    valores = v;
+		    valores_campos = v;
 		    
 		    campo_id = "id_sit";
 		    id = request.getParameter("id_sit");
@@ -201,7 +215,7 @@ public class Alerta extends HttpServlet {
 		   String d[] = {"ritmo_min", "ritmo_max", "raio", "latitude", "longitude"};
 		   campos = d;
 		   String e[] = {ritmo_min, ritmo_max, raio, latitude, longitude};
-		   valores = e;
+		   valores_campos = e;
 		   
 		   campo_id = "id_animal";
 		   id = request.getParameter("id_animal");
@@ -209,18 +223,67 @@ public class Alerta extends HttpServlet {
 		    }
 		 
 		try {
-			 ConnectionDB.UpdateQuery(table, campos, valores, campo_id, id);
+			 ConnectionDB.UpdateQuery(table, campos, valores_campos, campo_id, id);
 		 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 		 
 		 e.printStackTrace();
 		 }
 	}
 
+
+		
 	/**
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String idcoluna = "";
+		String id = "";
+		String table = "";
+		String url = request.getRequestURI();
+		String route = "";
+		String split_url[] = url.split("/");
+		
+		for (int i = 0; i < split_url.length; i++) 
+		{ 
+			if (i < 2)
+				route += "/" + split_url[i+1];
+			else if (i == 3)
+				id = split_url[i];
+		}
+		
+		System.out.println(route);
+		System.out.println(id);
+		switch(route) 
+		{
+		case "/SafePetDAI/alerts":
+			table = "Alertas";
+			idcoluna = "id_alerta";
+			System.out.println(id);
+			break;
+			
+		case "/SafePetDAI/alertsituation":
+			table = "SituacoesAlerta";
+			idcoluna = "id_sit";
+			System.out.println(id);
+			break;
+			
+		case "/SafePetDAI/usercriteria":
+			table = "CriteriosUtilizador";
+			idcoluna = "id_animal";
+			System.out.println(id);
+			break;
+	}
+		
+		try {
+			ConnectionDB.DeleteQuery(idcoluna, id, table);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 
 }
