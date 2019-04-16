@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Map;
 import java.util.*;
 /**
  * Servlet implementation class Alerta
@@ -139,106 +138,82 @@ public class Alerta extends HttpServlet {
 		String campos[] = {};
 		String valores_campos[]= {};
 		String url = request.getRequestURI();
-		String route ="";
-		String a = "/?";
-		String b = "=";
-		String c = "&";
-		String split_url[] = url.split("/");
+		
+		//O url recebi contém parâmetros?
+		if (URLHelper.UrlContainsValues(url))
+		{
+			Map<String, String> valores = URLHelper.UrlValues(url);
+		    String route = valores.get("route");
+		    
+		    
+			switch(route){
+				case "/SafePetDAI/alerts":
+				table = "Alertas";
+				String titulo_alerta = valores.get("titulo_alerta");
+				String descricao_alerta = valores.get("descricao_alerta");
+				String data_alerta = valores.get("data_alerta");
+				String hora_alerta = valores.get("hora_alert");
+				 
+			    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
+			    campos = t; 
+			    String g[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta};
+			    valores_campos = g;
+			    
+			    campo_id = "id_alerta";
+				id = valores.get("id_alerta");
+			    break;
+			 
+		    
+		    
+			case "/SafePetDAI/alertsituations":
+				table = "SituacoesAlerta";
+				String titulo_sit = valores.get("titulo_sit");
+				String descricao_sit= valores.get("descricao_sit");
+				String id_seg = valores.get("id_seg");	
+		    
+				String u[] = {"titulo_sit","descricao_sit", "id_seg"}; 
+			    campos = u;
+			    String v[]= {titulo_sit, descricao_sit, id_seg};
+			    valores_campos = v;
+			    
+			    campo_id = "id_sit";
+			    id = valores.get("id_sit");
+			    break;
+			    
+			    
+			    
+			case "/SafePetDAI/usercriteria":
+				table = "CriteriosUtilizador";    
+			   
+				String ritmo_min = valores.get("ritmo_min");
+				String ritmo_max = valores.get("ritmo_max");
+			    String raio = valores.get("raio");
+				String latitude = valores.get("latitude");
+				String longitude = valores.get("longitude");
+			    
+			   String d[] = {"ritmo_min", "ritmo_max", "raio", "latitude", "longitude"};
+			   campos = d;
+			   String e[] = {ritmo_min, ritmo_max, raio, latitude, longitude};
+			   valores_campos = e;
+			   
+			   campo_id = "id_animal";
+			   id = valores.get("id_animal");
+			   break;
+			    }
 	
-		
-	    
-		Map<String,String> valores = new HashMap<String, String>();
-	     
-	    String[] url_split = url.split(a);
-	    url_split = url_split[1].split(c);
-	    
-	    for (int i=1; i<url_split.length; i++)
-	    { 
-	    	System.out.println("---------");
-	    	System.out.println(url_split[i]);
-	    	
-	    	String[] url_values = url_split[i].split(b);
-	    	valores.put(url_values[0], url_values[1]);
-	    }
-	    
-	   
-	    for (int i=0; i < split_url.length; i++) {
-			if (i < 2)
-				route += "/" + split_url[i+1];
-			else if (i == 3)
-				id = split_url[i];
+			
+			
+			try {
+				 ConnectionDB.UpdateQuery(table, campos, valores_campos, campo_id, id);
+			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			 
+			 e.printStackTrace();
+			 }
 		}
-	    
-		
-	/*    for(String s: valores.values())
-	    {
-	    	System.out.println(s);
-	    }
-	    
-	    */
-	switch(route){
-		case "/SafePetDAI/alerts":
-		table = "Alertas";
-		String titulo_alerta = valores.get("titulo_alerta");
-		String descricao_alerta = valores.get("descricao_alerta");
-		String data_alerta = valores.get("data_alerta");
-		String hora_alerta = valores.get("hora_alert");
-		
-		System.out.println(titulo_alerta + "\n" + descricao_alerta + "\n" +  data_alerta + "\n" + hora_alerta);
-		 
-	    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
-	    campos = t; 
-	    String g[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta};
-	    valores_campos = g;
-	    
-	    campo_id = "id_alerta";
-		id = valores.get("id_alerta");
-	    break;
-		 
-	    
-	    
-		case "/SafePetDAI/alertsituations":
-			table = "SituacoesAlerta";
-			String titulo_sit = valores.get("titulo_sit");
-			String descricao_sit= valores.get("descricao_sit");
-			String id_seg = valores.get("id_seg");	
-	    
-			String u[] = {"titulo_sit","descricao_sit", "id_seg"}; 
-		    campos = u;
-		    String v[]= {titulo_sit, descricao_sit, id_seg};
-		    valores_campos = v;
-		    
-		    campo_id = "id_sit";
-		    id = valores.get("id_sit");
-		    break;
-		    
-		
-		    
-		case "/SafePetDAI/usercriteria":
-			table = "CriteriosUtilizador";    
-		   
-			String ritmo_min = valores.get("ritmo_min");
-			String ritmo_max = valores.get("ritmo_max");
-		    String raio = valores.get("raio");
-			String latitude = valores.get("latitude");
-			String longitude = valores.get("longitude");
-		    
-		   String d[] = {"ritmo_min", "ritmo_max", "raio", "latitude", "longitude"};
-		   campos = d;
-		   String e[] = {ritmo_min, ritmo_max, raio, latitude, longitude};
-		   valores_campos = e;
-		   
-		   campo_id = "id_animal";
-		   id = valores.get("id_animal");
-		   break;
-		    }
-		 
-		try {
-			 ConnectionDB.UpdateQuery(table, campos, valores_campos, campo_id, id);
-		 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-		 
-		 e.printStackTrace();
-		 }
+		else
+		{
+			System.out.println("O URL recebido não contém valores, UPDATE não realizado");
+		}
 	}
 
 
@@ -252,17 +227,10 @@ public class Alerta extends HttpServlet {
 		String id = "";
 		String table = "";
 		String url = request.getRequestURI();
-		String route = "";
-		String split_url[] = url.split("/");
 		
-		for (int i = 0; i < split_url.length; i++) 
-		{ 
-			if (i < 2)
-				route += "/" + split_url[i+1];
-			else if (i == 3)
-				id = split_url[i];
-		}
-		
+		Map<String, String> valores = URLHelper.UrlValues(url);
+	    String route = valores.get("route");
+				
 		System.out.println(route);
 		System.out.println(id);
 		switch(route) 
@@ -270,22 +238,25 @@ public class Alerta extends HttpServlet {
 		case "/SafePetDAI/alerts":
 			table = "Alertas";
 			idcoluna = "id_alerta";
+			id = valores.get(idcoluna);
 			System.out.println(id);
 			break;
 			
 		case "/SafePetDAI/alertsituation":
 			table = "SituacoesAlerta";
 			idcoluna = "id_sit";
+			id = valores.get(idcoluna);
 			System.out.println(id);
 			break;
 			
 		case "/SafePetDAI/usercriteria":
 			table = "CriteriosUtilizador";
 			idcoluna = "id_animal";
+			id = valores.get(idcoluna);
 			System.out.println(id);
 			break;
 	}
-		
+
 		try {
 			ConnectionDB.DeleteQuery(idcoluna, id, table);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
