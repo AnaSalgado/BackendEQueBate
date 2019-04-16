@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Veterinario
  */
-@WebServlet(urlPatterns = {"/vets", "/owners", "/insurers"})
+@WebServlet(urlPatterns = {"/vets/*", "/owners/*", "/insurers/*"})
 public class Utilizador extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

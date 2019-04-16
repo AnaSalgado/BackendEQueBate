@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
 import com.mysql.jdbc.ResultSetMetaData;
 
 
@@ -15,7 +14,7 @@ public class ConnectionDB {
 	static String url = "jdbc:mysql://35.205.27.245:3306/" + databaseName + "?autoReconnect=true&useSSL=false";
 	
 	static String username = "Safepet";
-	static String password = "";
+	static String password = "Safepetdai1819";
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
@@ -27,6 +26,7 @@ public class ConnectionDB {
 		ResultSet stat = sp.executeQuery();
 		ResultSetMetaData rsmd = (ResultSetMetaData) stat.getMetaData();
 		int columnsNumber = rsmd.getColumnCount();
+		
 		
 		String s = "";
 		
@@ -44,8 +44,47 @@ public class ConnectionDB {
 		}
 		
 		return s;
+		
 	}
 	
+	
+	public static void UpdateQuery(String table,String[] campos, Object[] valores_campos, String campo_id, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+		
+		String query = "UPDATE " + table + " SET ";
+		
+		for (int i = 0; i < campos.length; i++) {
+			
+			query += campos[i] + " = '" + valores_campos[i] + "'";			
+			
+			if (i != campos.length-1)
+			{
+				query += ", ";
+			}
+		}
+		
+		query += "WHERE " + campo_id + " = " + id; 
+		
+		System.out.println(query);
+		PreparedStatement sp = connection.prepareStatement(query);
+		sp.execute(query);
+	}
+		
+		
+		public static void DeleteQuery(String idcoluna, String id, String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			connection = DriverManager.getConnection(url, username, password);
+			
+			String query = "DELETE FROM " + table + " WHERE " + idcoluna + " = " + id;
+			
+			System.out.println(query);
+			PreparedStatement sp = connection.prepareStatement(query);
+			sp.executeUpdate();
+		}
+	
+		
 	public static void InsertQuery(String table, String[] colunas, Object[] valores) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -87,36 +126,5 @@ public class ConnectionDB {
 		
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.executeQuery();		
-	}
-	
-	public static void UpdateQuery(String table,String[] campos, Object[] valores, String campo_id, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
-	{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-		
-		String query = "UPDATE " + table + " SET ";
-		
-		for (int i = 0; i < campos.length; i++) {
-			
-			query += campos[i] + " = '" + valores[i] + "'";			
-			
-			if (i != campos.length-1)
-			{
-				query += ", ";
-			}
-		}
-		
-		query += "WHERE " + campo_id + " = " + id; 
-	}
-	
-	public static void DeleteQuery(String idcoluna, String id, String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-		
-		String query = "DELETE FROM " + table + " WHERE " + idcoluna + " = " + id;
-		
-		System.out.println(query);
-		PreparedStatement sp = connection.prepareStatement(query);
-		sp.executeUpdate();
 	}
 }
