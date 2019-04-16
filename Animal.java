@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -155,7 +156,110 @@ public class Animal extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			// TODO Auto-generated method stub
+			String table = "";
+			String campo_id = "";
+			String id= "";
+			String campos[] = {};
+			String valores_campos[]= {};
+			String url = request.getRequestURI();
+			
+			//O url recebi contém parâmetros?
+			if (URLHelper.UrlContainsValues(url))
+			{
+				Map<String, String> valores = URLHelper.UrlValues(url);
+			    String route = valores.get("route");
+			    
+			    
+			    switch(route){
+				case "/SafePetDAI/animals":
+				String nome_animal = valores.get("nome_animal");
+				String raca = valores.get("raca");
+				String especie = valores.get("especie");
+				String data_nasc = valores.get("data_nasc");
+				String id_seg = valores.get("id_seg");
+				String id_dono = valores.get("id_dono");
+				
+				table = "Animais";
+				String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono"};
+				campos = c;
+				String v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono};
+				valores_campos = v;
+				
+				campo_id = "id_animal";
+				id = valores.get("id_animal");
+				break;
+				
+				case "/SafePetDAI/newsletters":
+					String id_animal2 = valores.get("id_animal");
+					String id_vet = valores.get("id_vet");
+					
+					table = "Boletins";
+					String a[] = {"id_animal", "id_vet"};
+					campos = a;
+					String b[] = {id_animal2, id_vet};
+					valores_campos = b;
+					campo_id = "id_bol";
+					id = valores.get("id_bol");
+				break;
+				
+				case "/SafePetDAI/diseases":
+					String nome_doenca = valores.get("nome_doenca");
+					String descricao_doenca = valores.get("descricao_doenca");
+					String id_bol2 = valores.get("id_bol");
+					
+					table = "Doencas";
+					String d[] = {"nome_doenca", "descricao_doenca", "id_bol"};
+					campos = d;
+					String e[] = {nome_doenca, descricao_doenca, id_bol2};
+					valores_campos = e;
+					campo_id = "id_doenca";
+					id = valores.get("id_doenca");
+				break;
+				
+				case "/SafePetDAI/vaccines":
+					String nome_vac = valores.get("nome_vac");
+					String descricao_vac = valores.get("descricao_vac");
+					String data_validade = valores.get("data_validade");
+					String id_bol3 = valores.get("id_bol");
+					
+					table = "Vacinas";
+					String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_bol"};
+					campos = f;
+					String g[] = {nome_vac, descricao_vac, data_validade, id_bol3};
+					valores_campos = g;
+					campo_id = "id_vacina";
+					id = valores.get("id_vacina");
+				break;
+				
+				case "/SafePetDAI/observations":
+					String data_observ = valores.get("data_observ");
+					String descricao = valores.get("descricao");
+					String id_bol4 = valores.get("id_bol");
+					
+					table = "Observacoes";
+					String t[] = {"data_observ", "descricao", "id_bol"};
+					campos = t;
+					String h[] = {data_observ, descricao, id_bol4};
+					valores_campos = h;
+					campo_id = "id_obser";
+					id = valores.get("id_obser");
+				break;
+				    }
 		
+				
+				
+				try {
+					 ConnectionDB.UpdateQuery(table, campos, valores_campos, campo_id, id);
+				 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+				 
+				 e.printStackTrace();
+				 }
+			}
+			else
+			{
+				System.out.println("O URL recebido não contém valores, UPDATE não realizado");
+			}
 	}
 
 	/**
@@ -166,16 +270,9 @@ public class Animal extends HttpServlet {
 		String id = "";
 		String table = "";
 		String url = request.getRequestURI();
-		String route = "";
-		String split_url[] = url.split("/");
 		
-		for (int i = 0; i < split_url.length; i++) 
-		{ 
-			if (i < 2)
-				route += "/" + split_url[i+1];
-			else if (i == 3)
-				id = split_url[i];
-		}
+		Map<String, String> valores = URLHelper.UrlValues(url);
+	    String route = valores.get("route");
 		
 		System.out.println(route);
 		System.out.println(id);
@@ -184,27 +281,36 @@ public class Animal extends HttpServlet {
 			case "/SafePetDAI/animals":
 				table = "Animais";
 				idcoluna = "id_animal";
+				id = valores.get(idcoluna);
 				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/newsletters":
 				table = "Boletins";
 				idcoluna = "id_bol";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/diseases":
 				table = "Doencas";
 				idcoluna = "id_doenca";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/vaccines":
 				table = "Vacinas";
 				idcoluna = "id_vacina";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/observations":
 				table = "Observacoes";
 				idcoluna = "id_obser";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 		}
 		
