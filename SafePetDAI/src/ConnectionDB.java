@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.mysql.jdbc.ResultSetMetaData;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import DataObjects.DataObjectFactory;
+import java.util.ArrayList;
 
 public class ConnectionDB {
 
@@ -18,33 +20,40 @@ public class ConnectionDB {
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
+
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
 		connection = DriverManager.getConnection(url, username, password);
-		
+
 		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + table);
 
 		ResultSet stat = sp.executeQuery();
-		ResultSetMetaData rsmd = (ResultSetMetaData) stat.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
-		
-		
-		String s = "";
-		
-		while (stat.next()) {
-		    for (int i = 1; i <= columnsNumber; i++) {
-		        if (i > 1) s+= ",  ";
-		        String columnValue = stat.getString(i);
-		        s += columnValue + " " + rsmd.getColumnName(i);
-		        s += "\n";
-		    }
-		    s += "\n";
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(DataObjectFactory.getDataObject(table, stat));
 		}
+		
 		if(connection != null) {
-			System.out.println("bd foi conectada");
+
+			System.out.println("Conexão á Base de Dados efectuada com sucesso!");
+			connection.close();
 		}
 		
-		return s;
+		ObjectMapper mapper = new ObjectMapper();
 		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;	
 	}
 	
 	
@@ -125,6 +134,6 @@ public class ConnectionDB {
 		System.out.println(query);
 		
 		PreparedStatement sp = connection.prepareStatement(query);
-		sp.executeUpdate();		
+		sp.executeQuery();		
 	}
 }
