@@ -1,10 +1,16 @@
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.ResultSetMetaData;
+
 
 
 public class ConnectionDB {
@@ -16,7 +22,7 @@ public class ConnectionDB {
 	static String username = "Safepet";
 	static String password = "Safepetdai1819";
 	
-	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, JsonProcessingException
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
@@ -38,12 +44,42 @@ public class ConnectionDB {
 		        s += "\n";
 		    }
 		    s += "\n";
+		    System.out.println(s);
 		}
 		if(connection != null) {
 			System.out.println("bd foi conectada");
 		}
 		
-		return s;
+		
+		ObjectMapper mapper = new ObjectMapper();
+	
+		
+		Alerta jesus = new Alerta("1","titulo random", "descrição blabla", "2019-04-15", "00:00:00");
+		
+		
+		String jsonInString = mapper.writeValueAsString(jesus);
+		
+		try {
+			
+			//Convert object to JSON string and save into file directly
+		   //mapper.WriteValue(jesus);
+			
+			//convert object to JSON String
+		    System.out.println(jsonInString);
+			
+			//Convert object to JSON string and pretty print
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jesus);
+			System.out.println(jsonInString);
+			
+		}catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+				e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+			return jsonInString;
 		
 	}
 	
