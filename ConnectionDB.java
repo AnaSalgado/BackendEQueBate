@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.ResultSetMetaData;
 
 
-
 public class ConnectionDB {
 
 	static Connection connection = null;
@@ -22,63 +21,126 @@ public class ConnectionDB {
 	static String username = "Safepet";
 	static String password = "Safepetdai1819";
 	
-	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException, JsonProcessingException
+	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
+
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
 		connection = DriverManager.getConnection(url, username, password);
+
 		
+
 		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + table);
 
+
+
 		ResultSet stat = sp.executeQuery();
+
 		ResultSetMetaData rsmd = (ResultSetMetaData) stat.getMetaData();
+
 		int columnsNumber = rsmd.getColumnCount();
+
 		
+
 		
+
 		String s = "";
+
 		
+
 		while (stat.next()) {
+
 		    for (int i = 1; i <= columnsNumber; i++) {
+
 		        if (i > 1) s+= ",  ";
+
 		        String columnValue = stat.getString(i);
+
 		        s += columnValue + " " + rsmd.getColumnName(i);
+
 		        s += "\n";
+
 		    }
+
 		    s += "\n";
+
 		    System.out.println(s);
+
 		}
+
 		if(connection != null) {
+
 			System.out.println("bd foi conectada");
+
 		}
+
 		
+
 		
+
 		ObjectMapper mapper = new ObjectMapper();
+
 	
 		
+		
+
 		Alerta jesus = new Alerta("1","titulo random", "descrição blabla", "2019-04-15", "00:00:00");
+
 		
+
 		
-		String jsonInString = mapper.writeValueAsString(jesus);
+
+		String jsonInString = "";
 		
 		try {
-			
-			//Convert object to JSON string and save into file directly
-		   //mapper.WriteValue(jesus);
-			
-			//convert object to JSON String
-		    System.out.println(jsonInString);
-			
-			//Convert object to JSON string and pretty print
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jesus);
-			System.out.println(jsonInString);
-			
-		}catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-				e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			jsonInString = mapper.writeValueAsString(jesus);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+
+		
+
+		try {
+
+			
+
+			//Convert object to JSON string and save into file directly
+
+		   //mapper.WriteValue(jesus);
+
+			
+
+			//convert object to JSON String
+
+		    System.out.println(jsonInString);
+
+			
+
+			//Convert object to JSON string and pretty print
+
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jesus);
+
+			System.out.println(jsonInString);
+
+			
+
+		}catch (JsonGenerationException e) {
+
+			e.printStackTrace();
+
+		} catch (JsonMappingException e) {
+
+				e.printStackTrace();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+
 				
+
 			return jsonInString;
 		
 	}
