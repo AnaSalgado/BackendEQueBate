@@ -1,5 +1,8 @@
-public class Alerta
-{
+
+  
+	
+	public class Alerta
+      {
 	public String id_alerta;
 
 	public String titulo_alerta;
@@ -25,3 +28,10 @@ public class Alerta
 		this.hora_alerta = hora;
 	}
 }
+
+
+
+
+
+
+
