@@ -18,9 +18,11 @@ public class Veterinario {
 	 
 	public String id_seg;
 	
+	public String estado;
+	
 
 	
-	public Veterinario (String  id_vet, String nome_vet, String data_nasc_vet, String pass_vet, String telemovel_vet, String morada_vet, String email_vet, String id_seg)
+	public Veterinario (String  id_vet, String nome_vet, String data_nasc_vet, String pass_vet, String telemovel_vet, String morada_vet, String email_vet, String id_seg, String estado)
 	{
 		this.id_vet =  id_vet;
 	
@@ -37,6 +39,8 @@ public class Veterinario {
 		this.email_vet = email_vet;
 		
 		this.id_seg = id_seg;
+		
+		this.estado = estado;
 		
 	}
 	

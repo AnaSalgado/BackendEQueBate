@@ -14,8 +14,10 @@ public class Dono {
 	
 	public String password_dono;
 	
+	public String estado;
 	
-	public Dono (String id_dono, String nome_dono, String morada_dono, String telemovel_dono, String email_dono, String password_dono)
+	
+	public Dono (String id_dono, String nome_dono, String morada_dono, String telemovel_dono, String email_dono, String password_dono, String estado)
 	{
 		this.id_dono = id_dono;
 	
@@ -28,6 +30,8 @@ public class Dono {
 		this.email_dono = email_dono;
 		
 		this.password_dono = password_dono;
+		
+		this.estado = estado;
 		
 	}
 	

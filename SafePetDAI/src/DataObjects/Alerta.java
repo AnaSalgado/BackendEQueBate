@@ -12,9 +12,11 @@ public class Alerta
 
 	public String hora_alerta;
 	
+	public String id_dono;
 	
 	
-	public Alerta(String id, String titulo, String descricao, String data, String hora)
+	
+	public Alerta(String id, String titulo, String descricao, String data, String hora, String dono)
 	{
 		this.id_alerta = id;
 	
@@ -25,5 +27,7 @@ public class Alerta
 		this.data_alerta = data;
 	
 		this.hora_alerta = hora;
+		
+		this.id_dono = dono;
 	}
 }

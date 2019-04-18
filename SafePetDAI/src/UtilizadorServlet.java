@@ -68,12 +68,13 @@ public class UtilizadorServlet extends HttpServlet {
 		String morada_vet = request.getParameter("morada_vet");
 		String email_vet = request.getParameter("email_vet");
 		String id_seg = request.getParameter("id_seg");
+		String estado_vet = request.getParameter("estado");
 		
 		table = "Veterinarios";
 		//nomes da BD
-		String c[] = {"id_vet", "nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg"};
+		String c[] = {"id_vet", "nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
 		colunas = c;
-		Object v[] = {id_vet, nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg};
+		Object v[] = {id_vet, nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
 		valores = v;
 		break;
 		
@@ -84,11 +85,12 @@ public class UtilizadorServlet extends HttpServlet {
 		String telemovel_dono = request.getParameter("telemovel_dono");
 		String email_dono = request.getParameter("email_dono");
 		String password_dono = request.getParameter("password_dono");
+		String estado_dono = request.getParameter("estado");
 		
 		table = "Donos";
-		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono"};
+		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
 		colunas = a;
-		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono};
+		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono, estado_dono};
 		valores = b;		
 		
 		case "/SafePetDAI/insurers":
@@ -98,11 +100,12 @@ public class UtilizadorServlet extends HttpServlet {
 		String telemovel_seg = request.getParameter("telemovel_seg");
 		String email_seg = request.getParameter("email_seg");
 		String pass_seg = request.getParameter("pass_seg");
+		String estado_seg = request.getParameter("estado");
 		
 		table = "Seguradoras";
-		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg"};
+		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
 		colunas = d;
-		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg};
+		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg, estado_seg};
 		valores = e;
 		break;
 		

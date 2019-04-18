@@ -80,11 +80,12 @@ public class AnimalServlet extends HttpServlet {
 		String data_nasc = request.getParameter("data_nasc");
 		String id_seg = request.getParameter("id_seg");
 		String id_dono = request.getParameter("id_dono");
+		String ativo = request.getParameter("ativo");
 		
 		table = "Animais";
-		String c[] = {"id_animal", "nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono"};
+		String c[] = {"id_animal", "nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", ativo};
 		colunas = c;
-		Object v[] = {id_animal, nome_animal, raca, especie, data_nasc, id_seg, id_dono};
+		Object v[] = {id_animal, nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo};
 		valores = v;
 		break;
 		
@@ -179,11 +180,12 @@ public class AnimalServlet extends HttpServlet {
 				String data_nasc = valores.get("data_nasc");
 				String id_seg = valores.get("id_seg");
 				String id_dono = valores.get("id_dono");
+				String ativo = valores.get("ativo");
 				
 				table = "Animais";
-				String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono"};
+				String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo"};
 				campos = c;
-				String v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono};
+				String v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo};
 				valores_campos = v;
 				
 				campo_id = "id_animal";

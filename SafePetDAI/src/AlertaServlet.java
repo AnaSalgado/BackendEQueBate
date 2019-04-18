@@ -2,15 +2,14 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.*;
 /**
  * Servlet implementation class Alerta
  */
@@ -76,11 +75,12 @@ public class AlertaServlet extends HttpServlet {
 			 String descricao_alerta = request.getParameter("descricao_alerta");
 			 String data_alerta = request.getParameter("data_alerta");
 			 String hora_alerta = request.getParameter("hora_alert");
+			 String id_dono = request.getParameter("id_dono");
 			 
 	    table = "Alertas";
-	    String c[] = {"id_alerta", "titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
+	    String c[] = {"id_alerta", "titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta", "id_dono"};
 	    colunas = c;
-	    Object v[] = {id_alerta, titulo_alerta, descricao_alerta, data_alerta, hora_alerta};
+	    Object v[] = {id_alerta, titulo_alerta, descricao_alerta, data_alerta, hora_alerta, id_dono};
 	    valores = v;
 	    break;
 	    
@@ -153,10 +153,11 @@ public class AlertaServlet extends HttpServlet {
 				String descricao_alerta = valores.get("descricao_alerta");
 				String data_alerta = valores.get("data_alerta");
 				String hora_alerta = valores.get("hora_alert");
+				String id_dono = valores.get("id_dono");
 				 
-			    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta"};
+			    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta", "id_dono"};
 			    campos = t; 
-			    String g[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta};
+			    String g[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta, id_dono};
 			    valores_campos = g;
 			    
 			    campo_id = "id_alerta";

@@ -26,12 +26,12 @@ public class DataObjectFactory
 		{
 			case "Alertas": 
 				o = new Alerta(valores.get("id_alerta"),valores.get("titulo_alerta"),
-			    		valores.get("descricao_alerta"),valores.get("data_alerta"),valores.get("hora_alerta"));
+			    		valores.get("descricao_alerta"),valores.get("data_alerta"),valores.get("hora_alerta"), valores.get("id_dono"));
 				break;
 				
 			case "Animais":
 				o = new Animal(valores.get("id_animal"),valores.get("nome_animal"),valores.get("raca"),valores.get("especie"),
-						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"));
+						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"), valores.get("ativo"));
 				break;
 		}
 		
