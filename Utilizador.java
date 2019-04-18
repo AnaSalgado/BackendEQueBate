@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  * Servlet implementation class Veterinario
  */
@@ -21,6 +23,7 @@ public class Utilizador extends HttpServlet {
      */
     public Utilizador() {
         super();
+        
         // TODO Auto-generated constructor stub
     }
 
@@ -52,23 +55,41 @@ public class Utilizador extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
+
+	
+	  public String hashPassword (String password_plaintext) {
+	       String salt = BCrypt.gensalt(10);
+		   String hashed_password = BCrypt.hashpw(password_plaintext, salt);
+
+		return(hashed_password);
+	}
+	
+	
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String table = "";
 		String colunas[] = {};
 		Object valores[] = {};
+	
+		
 		switch(request.getRequestURI()) {
+		
 		
 		case "/SafePetDAI/vets" :
 		System.out.println("FUNCIONA CARALHO");
 		String id_vet = request.getParameter("id_vet"); //os que estao em "" sao para dar ao front
 		String nome_vet = request.getParameter("nome_vet");
 		String data_nasc_vet = request.getParameter("data_nasc_vet");
-		String pass_vet = request.getParameter("pass_vet");
+		String pass_vet = hashPassword(request.getParameter("pass_vet"));
 		String telemovel_vet = request.getParameter("telemovel_vet");
 		String morada_vet = request.getParameter("morada_vet");
 		String email_vet = request.getParameter("email_vet");
 		String id_seg = request.getParameter("id_seg");
+		
+	
 		
 		table = "Veterinarios";
 		//nomes da BD
@@ -84,7 +105,7 @@ public class Utilizador extends HttpServlet {
 		String morada_dono = request.getParameter("morada_dono");
 		String telemovel_dono = request.getParameter("telemovel_dono");
 		String email_dono = request.getParameter("email_dono");
-		String password_dono = request.getParameter("password_dono");
+		String password_dono = hashPassword(request.getParameter("password_dono"));
 		
 		table = "Donos";
 		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono"};
@@ -98,7 +119,7 @@ public class Utilizador extends HttpServlet {
 		String morada_seg = request.getParameter("morada_seg");
 		String telemovel_seg = request.getParameter("telemovel_seg");
 		String email_seg = request.getParameter("email_seg");
-		String pass_seg = request.getParameter("pass_seg");
+		String pass_seg = hashPassword(request.getParameter("pass_seg"));
 		
 		table = "Seguradoras";
 		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg"};
@@ -107,8 +128,16 @@ public class Utilizador extends HttpServlet {
 		valores = e;
 		break;
 		
+	
 		
+		/*public void checkPass(String plainPassword, String hashedPassword) {
+			if (BCrypt.checkpw(plainPassword, hashedPassword))
+				System.out.println("The password matches.");          //usar para login
+			else
+				System.out.println("The password does not match.");*/
 		}
+
+		
 		try {
 			ConnectionDB.InsertQuery(table, colunas, valores);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
