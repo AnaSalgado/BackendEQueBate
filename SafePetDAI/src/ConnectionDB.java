@@ -40,37 +40,7 @@ public class ConnectionDB {
 		return user_list;
 	}
 	
-	public static String SelectID (String table, String coluna, String value) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
-	{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		connection = DriverManager.getConnection(url, username, password);
-
-		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + table + "WHERE " + coluna + " = " + value);
-		
-		ResultSet stat = sp.executeQuery();
-		ArrayList<Object> object_list = new ArrayList<Object>();
-
-		while (stat.next()) {
-		    object_list.add(DataObjectFactory.getDataObject(table, stat));
-		}
-		if(connection != null) {
-			System.out.println("Conexão á Base de Dados efectuada com sucesso!");
-			connection.close();
-		}
-		ObjectMapper mapper = new ObjectMapper();
-		
-		String jsonInString = "";
-		
-		try {
-			jsonInString = mapper.writeValueAsString(object_list);
-		} catch (JsonProcessingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		return jsonInString;
-		
-	}
+	
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
@@ -78,6 +48,7 @@ public class ConnectionDB {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		connection = DriverManager.getConnection(url, username, password);
+
 		PreparedStatement sp = connection.prepareStatement("SELECT * FROM " + table);
 
 		ResultSet stat = sp.executeQuery();
@@ -118,18 +89,20 @@ public class ConnectionDB {
 		String query = "UPDATE " + table + " SET ";
 		
 		for (int i = 0; i < campos.length; i++) {
-			query += campos[i] + " = '" + valores_campos[i] + "' ";			
+			
+			query += campos[i] + " = '" + valores_campos[i] + "'";			
+			
 			if (i != campos.length-1)
 			{
 				query += ", ";
 			}
 		}
 		
-		query += " WHERE " + campo_id + " = " + id; 
+		query += "WHERE " + campo_id + " = " + id; 
 		
 		System.out.println(query);
 		PreparedStatement sp = connection.prepareStatement(query);
-		sp.executeUpdate(query); 
+		sp.execute(query);
 	}
 		
 		
