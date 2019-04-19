@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import DataObjects.DataObjectFactory;
 import java.util.ArrayList;
+import DataObjects.User;
 
 public class ConnectionDB {
 
@@ -17,6 +18,29 @@ public class ConnectionDB {
 	
 	static String username = "Safepet";
 	static String password = "Safepetdai1819";
+	
+	
+	
+	public static ArrayList<User> getUsers(String table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+	
+		PreparedStatement sp = connection.prepareStatement("SELECT * FROM" + table);
+	    
+		ResultSet stat = sp.executeQuery();
+	
+		ArrayList<User> user_list = new ArrayList<User>();
+		
+		while (stat.next()) 
+		{
+			user_list.add((User) DataObjectFactory.getDataObject(table, stat));
+	
+	}
+		return user_list;
+	}
+	
+	
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
