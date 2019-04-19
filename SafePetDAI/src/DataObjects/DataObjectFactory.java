@@ -49,8 +49,8 @@ public class DataObjectFactory
 				break;
 				
 			case "Donos":
-				o = new Dono(valores.get("id_dono"),valores.get("nome_dono"),valores.get("morada_dono"),valores.get("telemovel_dono"),
-						valores.get("email_dono"),valores.get("password_dono"),valores.get("estado"));
+				o = new Dono(valores.get("email_dono"),valores.get("password_dono"),valores.get("id_dono"),valores.get("nome_dono"),
+						valores.get("morada_dono"),valores.get("telemovel_dono"),valores.get("estado"));
 				break;
 	
 			case "Observacoes":
@@ -58,8 +58,8 @@ public class DataObjectFactory
 				break;
 	
 			case "Seguradoras":
-				o = new Seguradora(valores.get("id_seg"),valores.get("nome_seg"),valores.get("pass_seg"),valores.get("morada_seg"),
-						valores.get("telefone_seg"),valores.get("email_seg"),valores.get("estado"));
+				o = new Seguradora(valores.get("email_seg"),valores.get("pass_seg"),valores.get("id_seg"),valores.get("nome_seg"),
+						valores.get("morada_seg"),valores.get("telefone_seg"),valores.get("estado"));
 				break;
 	
 			case "SituacoesAlerta":
@@ -71,8 +71,8 @@ public class DataObjectFactory
 				break;
 	
 			case "Veterinarios":
-				o = new Veterinario(valores.get("id_vet"),valores.get("nome_vet"),valores.get("data_nasc_vet"),valores.get("pass_vet"),
-						valores.get("telemovel_vet"),valores.get("morada_vet"),valores.get("email_vet"),valores.get("id_seg"),valores.get("estado"));
+				o = new Veterinario(valores.get("email_vet"),valores.get("pass_vet"),valores.get("id_vet"),valores.get("nome_vet"),
+						valores.get("data_nasc_vet"),valores.get("telemovel_vet"),valores.get("morada_vet"),valores.get("id_seg"),valores.get("estado"));
 				break;
 		}
 		

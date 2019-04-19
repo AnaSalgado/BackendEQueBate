@@ -1,12 +1,15 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Servlet implementation class Veterinario
@@ -48,6 +51,13 @@ public class UtilizadorServlet extends HttpServlet {
 		} 
 	}
 
+	 public String hashPassword (String password_plaintext) {
+	       String salt = BCrypt.gensalt(10);
+		   String hashed_password = BCrypt.hashpw(password_plaintext, salt);
+
+		return(hashed_password);
+	}
+	 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -109,6 +119,11 @@ public class UtilizadorServlet extends HttpServlet {
 		valores = e;
 		break;
 		
+		/*public void checkPass(String plainPassword, String hashedPassword) {
+		if (BCrypt.checkpw(plainPassword, hashedPassword))
+			System.out.println("The password matches.");          //usar para login
+		else
+			System.out.println("The password does not match.");*/
 		
 		}
 		try {
@@ -118,6 +133,94 @@ public class UtilizadorServlet extends HttpServlet {
 			e.printStackTrace();
 		} 
 	}
+	
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String table = "";
+		String campo_id = "";
+		String id= "";
+		String campos[] = {};
+		String valores_campos[]= {};
+		String url = request.getRequestURI();
+		
+		//O url recebi contém parâmetros?
+		if (URLHelper.UrlContainsValues(url))
+		{
+			Map<String, String> valores = URLHelper.UrlValues(url);
+		    String route = valores.get("route");
+		    
+		    
+		    switch(route){
+
+			case "/SafePetDAI/vets" :
+			String nome_vet = valores.get("nome_vet");
+			String data_nasc_vet = valores.get("data_nasc_vet");
+			String pass_vet = valores.get("pass_vet");
+			String telemovel_vet = valores.get("telemovel_vet");
+			String morada_vet = valores.get("morada_vet");
+			String email_vet = valores.get("email_vet");
+			String id_seg = valores.get("id_seg");
+			String estado_vet = valores.get("estado");
+			
+			table = "Veterinarios";
+			//nomes da BD
+			String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+			campos = c;
+			String v[] = {nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+			valores_campos = v;
+			
+			campo_id = "id_vet";
+			id = valores.get("id_vet");
+			break;
+			
+			case "/SafePetDAI/owners":
+			String nome_dono = valores.get("nome_dono");
+			String morada_dono = valores.get("morada_dono");
+			String telemovel_dono = valores.get("telemovel_dono");
+			String email_dono = valores.get("email_dono");
+			String password_dono = valores.get("password_dono");
+			String estado_dono = valores.get("estado");
+			
+			table = "Donos";
+			String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
+			campos = a;
+			String b[] = {nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono, estado_dono};
+			valores_campos = b;	
+			
+			campo_id = "id_dono";
+			id = valores.get("id_dono");
+			
+			case "/SafePetDAI/insurers":
+			String nome_seg = valores.get("nome_seg");
+			String morada_seg = valores.get("morada_seg");
+			String telemovel_seg = valores.get("telemovel_seg");
+			String email_seg = valores.get("email_seg");
+			String pass_seg = valores.get("pass_seg");
+			String estado_seg = valores.get("estado");
+			
+			table = "Seguradoras";
+			String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
+			campos = d;
+			String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg, estado_seg};
+			valores_campos = e;
+			
+			campo_id = "id_seg";
+			id = valores.get("id_seg");
+			break;
+			    }
+			
+			try {
+				 ConnectionDB.UpdateQuery(table, campos, valores_campos, campo_id, id);
+			 } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			 
+			 e.printStackTrace();
+			 }
+		}
+		else
+		{
+			System.out.println("O URL recebido não contém valores, UPDATE não realizado");
+		}
+}
 	
 	protected void doDelete (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idcoluna = "";

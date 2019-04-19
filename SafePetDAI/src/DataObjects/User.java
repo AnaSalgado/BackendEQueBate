@@ -1,6 +1,5 @@
 package DataObjects;
 
-
 public class User {
 	public String email_user;
 

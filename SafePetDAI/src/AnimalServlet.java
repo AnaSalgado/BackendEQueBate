@@ -31,6 +31,7 @@ public class AnimalServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String table = "";
+		
 		switch(request.getRequestURI()) {
 		case "/SafePetDAI/animals":
 			table = "Animais";
@@ -59,7 +60,7 @@ public class AnimalServlet extends HttpServlet {
 				e.printStackTrace();
 			
 			}
-		}
+			}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -83,7 +84,7 @@ public class AnimalServlet extends HttpServlet {
 		String ativo = request.getParameter("ativo");
 		
 		table = "Animais";
-		String c[] = {"id_animal", "nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", ativo};
+		String c[] = {"id_animal", "nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo"};
 		colunas = c;
 		Object v[] = {id_animal, nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo};
 		valores = v;

@@ -14,7 +14,7 @@ public class Seguradora extends User {
 	
 	
     
-    public Seguradora (String email_user, String pass_user, String  id_seg, String nome_seg, String pass_seg, String morada_seg, String telefone_seg, String email_seg, String estado)
+    public Seguradora (String email_user, String pass_user, String  id_seg, String nome_seg, String morada_seg, String telefone_seg, String estado)
 	{
 		
 		super(email_user, pass_user);
