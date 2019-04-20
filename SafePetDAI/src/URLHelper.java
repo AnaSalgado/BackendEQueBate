@@ -16,13 +16,16 @@ public class URLHelper
 		String route = "";
 		
 	    String[] url_split = url.split("/!");	//Split para receber os valores
+	    System.out.println(url_split[1]);
 	    url_split = url_split[1].split("&");	//Split para separar cada valor
 		
 	    //Associar na tabela cada parâmetro ao seu valor
 	    for (int i=0; i<url_split.length; i++)
 	    { 
 	    	String[] url_values = url_split[i].split("=");
+	    	url_values[0] = url_values[0].replaceAll("/", "");
 	    	valores.put(url_values[0], url_values[1]);
+	    	System.out.println(url_values[0] + ": " + url_values[1]);
 	    }
 	    
 	    //Descobrir a rota original do pedido

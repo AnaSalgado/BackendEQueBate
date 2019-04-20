@@ -102,7 +102,7 @@ public class ConnectionDB {
 		
 		System.out.println(query);
 		PreparedStatement sp = connection.prepareStatement(query);
-		sp.execute(query);
+		sp.execute();
 	}
 		
 		
@@ -158,6 +158,6 @@ public class ConnectionDB {
 		System.out.println(query);
 		
 		PreparedStatement sp = connection.prepareStatement(query);
-		sp.executeQuery();		
+		sp.execute();		
 	}
 }
