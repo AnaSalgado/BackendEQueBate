@@ -44,7 +44,6 @@ public class ConnectionDB {
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 		connection = DriverManager.getConnection(url, username, password);
@@ -80,6 +79,54 @@ public class ConnectionDB {
 		return jsonInString;	
 	}
 	
+	public static String SelectWhereQuery(String table, String[] campos, Object[] valores_campos) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
+	{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+
+		connection = DriverManager.getConnection(url, username, password);
+
+		String query = "SELECT * FROM " + table + " WHERE ";
+		
+		for (int i = 0; i < campos.length; i++) {
+			
+			query += campos[i] + " = '" + valores_campos[i] + "'";			
+			
+			if (i != campos.length-1)
+			{
+				query += "AND ";
+			}
+		}
+		
+		PreparedStatement sp = connection.prepareStatement(query);
+
+		ResultSet stat = sp.executeQuery();
+
+		ArrayList<Object> object_list = new ArrayList<Object>();
+	
+		while (stat.next()) 
+		{
+			object_list.add(DataObjectFactory.getDataObject(table, stat));
+		}
+		
+		if(connection != null) {
+
+			System.out.println("Conexão á Base de Dados efectuada com sucesso!");
+			connection.close();
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String jsonInString = "";
+		
+		try {
+			jsonInString = mapper.writeValueAsString(object_list);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		return jsonInString;	
+	}
 	
 	public static void UpdateQuery(String table,String[] campos, Object[] valores_campos, String campo_id, String id) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
