@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -28,39 +30,66 @@ public class AnimalServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		// TODO Auto-generated method stub
 		String table = "";
+		ArrayList<String> campos = new ArrayList<String>();
+		ArrayList<Object> valores_campos = new ArrayList<Object>();
+		String url = request.getRequestURI();
+		String route = url;
 		
-		switch(request.getRequestURI()) {
-		case "/SafePetDAI/animals":
-			table = "Animais";
-		break;
+		Map<String, String> valores = new HashMap<String,String>();
+		boolean SearchByValue = URLHelper.UrlContainsValues(url);
 		
-		case "/SafePetDAI/newsletters":
-			table = "Boletins";
-		break;
-			
-		case "/SafePetDAI/diseases":
-			table = "Doencas";
-		break;
-		
-		case "/SafePetDAI/vaccines":
-			table = "Vacinas";
-		break;
-			
-		case "/SafePetDAI/observations":
-			table = "Observacoes";
-		break;
+		if (SearchByValue) {
+			valores = URLHelper.UrlValues(url);
+		    route = valores.get("route");
+		    
+			for(int i = 0; i < valores.keySet().size(); i++)
+			{
+				if (!valores.keySet().toArray()[i].equals("route"))
+				{
+					campos.add((String) valores.keySet().toArray()[i]);
+					valores_campos.add(valores.values().toArray()[i]);
+				}
+			}
 		}
-			try {
-				response.getWriter().append((ConnectionDB.SelectQuery(table)));
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		
+		switch(route) 
+		{
+			case "/SafePetDAI/animals":
+				table = "Animais";
+			break;
 			
-			}
-			}
+			case "/SafePetDAI/newsletters":
+				table = "Boletins";
+			break;
+				
+			case "/SafePetDAI/diseases":
+				table = "Doencas";
+			break;
+			
+			case "/SafePetDAI/vaccines":
+				table = "Vacinas";
+			break;
+				
+			case "/SafePetDAI/observations":
+				table = "Observacoes";
+			break;
+		}
+		try {
+			if (!SearchByValue)
+				response.getWriter().append((ConnectionDB.SelectQuery(table)));
+			else
+				response.getWriter().append((ConnectionDB.SelectWhereQuery(table, campos.toArray(new String[campos.size()]), valores_campos.toArray())));
+			
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -73,7 +102,6 @@ public class AnimalServlet extends HttpServlet {
 		
 		switch(request.getRequestURI()){
 		case "/SafePetDAI/animals":
-		System.out.println("FUNCIONA CARALHO");
 		String id_animal = request.getParameter("id_animal");
 		String nome_animal = request.getParameter("nome_animal");
 		String raca = request.getParameter("raca");
@@ -91,7 +119,6 @@ public class AnimalServlet extends HttpServlet {
 		break;
 		
 		case "/SafePetDAI/newsletters":
-			System.out.println("FUNCIONA CARALHO");
 			String id_bol = request.getParameter("id_bol");
 			String id_animal2 = request.getParameter("id_animal");
 			String id_vet = request.getParameter("id_vet");
@@ -104,7 +131,6 @@ public class AnimalServlet extends HttpServlet {
 		break;
 		
 		case "/SafePetDAI/diseases":
-			System.out.println("FUNCIONA CARALHO");
 			String id_doenca = request.getParameter("id_doenca");
 			String nome_doenca = request.getParameter("nome_doenca");
 			String descricao_doenca = request.getParameter("descricao_doenca");
@@ -118,7 +144,6 @@ public class AnimalServlet extends HttpServlet {
 		break;
 		
 		case "/SafePetDAI/vaccines":
-			System.out.println("FUNCIONA CARALHO");
 			String id_vacina = request.getParameter("id_vacina");
 			String nome_vac = request.getParameter("nome_vac");
 			String descricao_vac = request.getParameter("descricao_vac");
@@ -133,7 +158,6 @@ public class AnimalServlet extends HttpServlet {
 		break;
 		
 		case "/SafePetDAI/observations":
-			System.out.println("FUNCIONA CARALHO");
 			String id_obser = request.getParameter("id_obser");
 			String data_observ = request.getParameter("data_observ");
 			String descricao = request.getParameter("descricao");
