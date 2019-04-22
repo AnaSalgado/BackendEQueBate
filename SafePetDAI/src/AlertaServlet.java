@@ -2,6 +2,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -31,10 +33,35 @@ public class AlertaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
+		ArrayList<String> campos = new ArrayList<String>();
+		ArrayList<Object> valores_campos = new ArrayList<Object>();
+		String url = request.getRequestURI();
+		String route = url;
 		
-	   switch(request.getRequestURI()){
+		Map<String, String> valores = new HashMap<String,String>();
+		boolean SearchByValue = URLHelper.UrlContainsValues(url);
+		
+		if (SearchByValue) {
+			valores = URLHelper.UrlValues(url);
+		    route = valores.get("route");
+		    
+			for(int i = 0; i < valores.keySet().size(); i++)
+			{
+				if (!valores.keySet().toArray()[i].equals("route"))
+				{
+					campos.add((String) valores.keySet().toArray()[i]);
+					valores_campos.add(valores.values().toArray()[i]);
+				}
+			}
+		}
+		
+	   switch(route){
 		
 	   case "/SafePetDAI/alerts": 
 			table = "Alertas";
@@ -48,19 +75,26 @@ public class AlertaServlet extends HttpServlet {
 			table = "CriteriosUtilizador";
 			break;
 	   }
-			try {
+		try {
+			if (!SearchByValue)
 				response.getWriter().append((ConnectionDB.SelectQuery(table)));
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+			else
+				response.getWriter().append((ConnectionDB.SelectWhereQuery(table, campos.toArray(new String[campos.size()]), valores_campos.toArray())));
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		String colunas[] = {};
@@ -131,6 +165,10 @@ public class AlertaServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		String campo_id = "";
@@ -223,6 +261,10 @@ public class AlertaServlet extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String idcoluna = "";
 		String id = "";

@@ -32,6 +32,10 @@ public class AnimalServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		ArrayList<String> campos = new ArrayList<String>();
@@ -95,6 +99,10 @@ public class AnimalServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		String colunas[] = {};
@@ -182,6 +190,10 @@ public class AnimalServlet extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			//CORS
+			response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+			response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 			// TODO Auto-generated method stub
 			String table = "";
 			String campo_id = "";
@@ -293,6 +305,11 @@ public class AnimalServlet extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
+		
 		String idcoluna = "";
 		String id = "";
 		String table = "";

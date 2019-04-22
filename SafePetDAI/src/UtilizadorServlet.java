@@ -1,6 +1,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -30,10 +32,35 @@ public class UtilizadorServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
+		ArrayList<String> campos = new ArrayList<String>();
+		ArrayList<Object> valores_campos = new ArrayList<Object>();
+		String url = request.getRequestURI();
+		String route = url;
 		
-		switch(request.getRequestURI()) {
+		Map<String, String> valores = new HashMap<String,String>();
+		boolean SearchByValue = URLHelper.UrlContainsValues(url);
+		
+		if (SearchByValue) {
+			valores = URLHelper.UrlValues(url);
+		    route = valores.get("route");
+		    
+			for(int i = 0; i < valores.keySet().size(); i++)
+			{
+				if (!valores.keySet().toArray()[i].equals("route"))
+				{
+					campos.add((String) valores.keySet().toArray()[i]);
+					valores_campos.add(valores.values().toArray()[i]);
+				}
+			}
+		}
+		
+		switch(route) {
 		case "/SafePetDAI/vets": table = "Veterinarios";
 			break;
 		case "/SafePetDAI/owners": table = "Donos";
@@ -44,14 +71,17 @@ public class UtilizadorServlet extends HttpServlet {
 		}
 		
 		try {
-			response.getWriter().append((ConnectionDB.SelectQuery(table)));
+			if (!SearchByValue)
+				response.getWriter().append((ConnectionDB.SelectQuery(table)));
+			else
+				response.getWriter().append((ConnectionDB.SelectWhereQuery(table, campos.toArray(new String[campos.size()]), valores_campos.toArray())));
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
 
-	 public String hashPassword (String password_plaintext) {
+	 public String hashPassword(String password_plaintext) {
 	       String salt = BCrypt.gensalt(10);
 		   String hashed_password = BCrypt.hashpw(password_plaintext, salt);
 
@@ -62,6 +92,10 @@ public class UtilizadorServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		String colunas[] = {};
@@ -69,7 +103,6 @@ public class UtilizadorServlet extends HttpServlet {
 		switch(request.getRequestURI()) {
 		
 		case "/SafePetDAI/vets" :
-		System.out.println("FUNCIONA CARALHO");
 		String id_vet = request.getParameter("id_vet"); //os que estao em "" sao para dar ao front
 		String nome_vet = request.getParameter("nome_vet");
 		String data_nasc_vet = request.getParameter("data_nasc_vet");
@@ -84,7 +117,7 @@ public class UtilizadorServlet extends HttpServlet {
 		//nomes da BD
 		String c[] = {"id_vet", "nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
 		colunas = c;
-		Object v[] = {id_vet, nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+		Object v[] = {id_vet, nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
 		valores = v;
 		break;
 		
@@ -100,7 +133,7 @@ public class UtilizadorServlet extends HttpServlet {
 		table = "Donos";
 		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
 		colunas = a;
-		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono, estado_dono};
+		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, hashPassword(password_dono), estado_dono};
 		valores = b;		
 		
 		case "/SafePetDAI/insurers":
@@ -115,15 +148,9 @@ public class UtilizadorServlet extends HttpServlet {
 		table = "Seguradoras";
 		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
 		colunas = d;
-		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg, estado_seg};
+		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
 		valores = e;
 		break;
-		
-		/*public void checkPass(String plainPassword, String hashedPassword) {
-		if (BCrypt.checkpw(plainPassword, hashedPassword))
-			System.out.println("The password matches.");          //usar para login
-		else
-			System.out.println("The password does not match.");*/
 		
 		}
 		try {
@@ -135,6 +162,10 @@ public class UtilizadorServlet extends HttpServlet {
 	}
 	
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
 		// TODO Auto-generated method stub
 		String table = "";
 		String campo_id = "";
@@ -164,10 +195,21 @@ public class UtilizadorServlet extends HttpServlet {
 			
 			table = "Veterinarios";
 			//nomes da BD
-			String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
-			campos = c;
-			String v[] = {nome_vet, data_nasc_vet, pass_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
-			valores_campos = v;
+			
+			if (!pass_vet.equals(""))
+			{
+				String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+				campos = c;
+				String v[] = {nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+				valores_campos = v;
+			}
+			else
+			{
+				String c[] = {"nome_vet", "data_nasc_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+				campos = c;
+				String v[] = {nome_vet, data_nasc_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+				valores_campos = v;
+			}
 			
 			campo_id = "id_vet";
 			id = valores.get("id_vet");
@@ -182,10 +224,21 @@ public class UtilizadorServlet extends HttpServlet {
 			String estado_dono = valores.get("estado");
 			
 			table = "Donos";
-			String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
-			campos = a;
-			String b[] = {nome_dono, morada_dono, telemovel_dono,  email_dono, password_dono, estado_dono};
-			valores_campos = b;	
+			
+			if (!password_dono.equals(""))
+			{
+				String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
+				campos = a;
+				String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, hashPassword(password_dono), estado_dono};
+				valores_campos = b;	
+			}
+			else
+			{
+				String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "estado"};
+				campos = a;
+				String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, estado_dono};
+				valores_campos = b;	
+			}
 			
 			campo_id = "id_dono";
 			id = valores.get("id_dono");
@@ -199,10 +252,21 @@ public class UtilizadorServlet extends HttpServlet {
 			String estado_seg = valores.get("estado");
 			
 			table = "Seguradoras";
-			String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
-			campos = d;
-			String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, pass_seg, estado_seg};
-			valores_campos = e;
+			
+			if (!pass_seg.equals(""))
+			{
+				String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
+				campos = d;
+				String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
+				valores_campos = e;
+			}
+			else
+			{
+				String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "estado"};
+				campos = d;
+				String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, estado_seg};
+				valores_campos = e;
+			}
 			
 			campo_id = "id_seg";
 			id = valores.get("id_seg");
@@ -223,6 +287,11 @@ public class UtilizadorServlet extends HttpServlet {
 }
 	
 	protected void doDelete (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
+		response.setHeader("Access-Control-Allow-Methods", "GET");
+		
+		
 		String idcoluna = "";
 		String id = "";
 		String table = "";
