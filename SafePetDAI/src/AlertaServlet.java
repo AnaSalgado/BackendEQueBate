@@ -93,7 +93,7 @@ public class AlertaServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "POST");
 		
 		// TODO Auto-generated method stub
 		String table = "";
@@ -104,32 +104,28 @@ public class AlertaServlet extends HttpServlet {
 		 switch(request.getRequestURI()){
 		 
 		 case "/SafePetDAI/alerts":
-			 String id_alerta = request.getParameter("id_alerta");
 			 String titulo_alerta = request.getParameter("titulo_alerta");
 			 String descricao_alerta = request.getParameter("descricao_alerta");
 			 String data_alerta = request.getParameter("data_alerta");
-			 String hora_alerta = request.getParameter("hora_alert");
+			 String hora_alerta = request.getParameter("hora_alerta");
 			 String id_dono = request.getParameter("id_dono");
-			 
+
 	    table = "Alertas";
-	    String c[] = {"id_alerta", "titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta", "id_dono"};
+	    String c[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta", "id_dono"};
 	    colunas = c;
-	    Object v[] = {id_alerta, titulo_alerta, descricao_alerta, data_alerta, hora_alerta, id_dono};
+	    Object v[] = {titulo_alerta, descricao_alerta, data_alerta, hora_alerta, id_dono};
 	    valores = v;
 	    break;
-	    
-	    
-			 
+	    	 
 		 case "/SafePetDAI/alertsituations":
-			 String id_sit = request.getParameter("id_sit");
 			 String titulo_sit = request.getParameter("titulo_sit");
 			 String descricao_sit= request.getParameter("descricao_sit");
 			 String id_seg = request.getParameter("id_seg");
 			 
 		table = "SituacoesAlerta";
-		String y[] = {"id_sit","titulo_sit", "descricao_sit", "id_seg"};
+		String y[] = {"titulo_sit", "descricao_sit", "id_seg"};
 		colunas = y;
-		Object z[] = {id_sit, titulo_sit, descricao_sit, id_seg};
+		Object z[] = {titulo_sit, descricao_sit, id_seg};
 		valores = z;
 		break;
 		
@@ -167,7 +163,7 @@ public class AlertaServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "PUT");
 		
 		// TODO Auto-generated method stub
 		String table = "";
@@ -190,7 +186,7 @@ public class AlertaServlet extends HttpServlet {
 				String titulo_alerta = valores.get("titulo_alerta");
 				String descricao_alerta = valores.get("descricao_alerta");
 				String data_alerta = valores.get("data_alerta");
-				String hora_alerta = valores.get("hora_alert");
+				String hora_alerta = valores.get("hora_alerta");
 				String id_dono = valores.get("id_dono");
 				 
 			    String t[] = {"titulo_alerta", "descricao_alerta", "data_alerta", "hora_alerta", "id_dono"};
@@ -263,7 +259,7 @@ public class AlertaServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "DELETE");
 		
 		// TODO Auto-generated method stub
 		String idcoluna = "";

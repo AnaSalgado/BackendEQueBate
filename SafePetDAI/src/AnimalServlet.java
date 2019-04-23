@@ -101,7 +101,7 @@ public class AnimalServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "POST");
 		
 		// TODO Auto-generated method stub
 		String table = "";
@@ -110,7 +110,6 @@ public class AnimalServlet extends HttpServlet {
 		
 		switch(request.getRequestURI()){
 		case "/SafePetDAI/animals":
-		String id_animal = request.getParameter("id_animal");
 		String nome_animal = request.getParameter("nome_animal");
 		String raca = request.getParameter("raca");
 		String especie = request.getParameter("especie");
@@ -120,61 +119,57 @@ public class AnimalServlet extends HttpServlet {
 		String ativo = request.getParameter("ativo");
 		
 		table = "Animais";
-		String c[] = {"id_animal", "nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo"};
+		String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo"};
 		colunas = c;
-		Object v[] = {id_animal, nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo};
+		Object v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo};
 		valores = v;
 		break;
 		
 		case "/SafePetDAI/newsletters":
-			String id_bol = request.getParameter("id_bol");
 			String id_animal2 = request.getParameter("id_animal");
 			String id_vet = request.getParameter("id_vet");
 			
 			table = "Boletins";
-			String a[] = {"id_bol", "id_animal", "id_vet"};
+			String a[] = {"id_animal", "id_vet"};
 			colunas = a;
-			Object b[] = {id_bol, id_animal2, id_vet};
+			Object b[] = {id_animal2, id_vet};
 			valores = b;
 		break;
 		
 		case "/SafePetDAI/diseases":
-			String id_doenca = request.getParameter("id_doenca");
 			String nome_doenca = request.getParameter("nome_doenca");
 			String descricao_doenca = request.getParameter("descricao_doenca");
 			String id_bol2 = request.getParameter("id_bol");
 			
 			table = "Doencas";
-			String d[] = {"id_doenca", "nome_doenca", "descricao_doenca", "id_bol"};
+			String d[] = {"nome_doenca", "descricao_doenca", "id_bol"};
 			colunas = d;
-			Object e[] = {id_doenca, nome_doenca, descricao_doenca, id_bol2};
+			Object e[] = {nome_doenca, descricao_doenca, id_bol2};
 			valores = e;
 		break;
 		
 		case "/SafePetDAI/vaccines":
-			String id_vacina = request.getParameter("id_vacina");
 			String nome_vac = request.getParameter("nome_vac");
 			String descricao_vac = request.getParameter("descricao_vac");
 			String data_validade = request.getParameter("data_validade");
 			String id_bol3 = request.getParameter("id_bol");
 			
 			table = "Vacinas";
-			String f[] = {"id_vacina", "nome_vac", "descricao_vac", "data_validade", "id_bol"};
+			String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_bol"};
 			colunas = f;
-			Object g[] = {id_vacina, nome_vac, descricao_vac, data_validade, id_bol3};
+			Object g[] = {nome_vac, descricao_vac, data_validade, id_bol3};
 			valores = g;
 		break;
 		
 		case "/SafePetDAI/observations":
-			String id_obser = request.getParameter("id_obser");
 			String data_observ = request.getParameter("data_observ");
 			String descricao = request.getParameter("descricao");
 			String id_bol4 = request.getParameter("id_bol");
 			
 			table = "Observacoes";
-			String t[] = {"id_obser", "data_observ", "descricao", "id_bol"};
+			String t[] = {"data_observ", "descricao", "id_bol"};
 			colunas = t;
-			Object h[] = {id_obser, data_observ, descricao, id_bol4};
+			Object h[] = {data_observ, descricao, id_bol4};
 			valores = h;
 		break;
 		}
@@ -192,7 +187,7 @@ public class AnimalServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			//CORS
 			response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-			response.setHeader("Access-Control-Allow-Methods", "GET");
+			response.setHeader("Access-Control-Allow-Methods", "PUT");
 		
 			// TODO Auto-generated method stub
 			String table = "";
@@ -307,7 +302,7 @@ public class AnimalServlet extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "DELETE");
 		
 		
 		String idcoluna = "";

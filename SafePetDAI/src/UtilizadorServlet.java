@@ -94,7 +94,7 @@ public class UtilizadorServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "POST");
 		
 		// TODO Auto-generated method stub
 		String table = "";
@@ -135,6 +135,7 @@ public class UtilizadorServlet extends HttpServlet {
 		colunas = a;
 		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, hashPassword(password_dono), estado_dono};
 		valores = b;		
+		break;
 		
 		case "/SafePetDAI/insurers":
 		String id_segu = request.getParameter("id_seg");
@@ -164,7 +165,7 @@ public class UtilizadorServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
+		response.setHeader("Access-Control-Allow-Methods", "PUT");
 		
 		// TODO Auto-generated method stub
 		String table = "";
@@ -195,21 +196,11 @@ public class UtilizadorServlet extends HttpServlet {
 			
 			table = "Veterinarios";
 			//nomes da BD
-			
-			if (!pass_vet.equals(""))
-			{
-				String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
-				campos = c;
-				String v[] = {nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
-				valores_campos = v;
-			}
-			else
-			{
-				String c[] = {"nome_vet", "data_nasc_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
-				campos = c;
-				String v[] = {nome_vet, data_nasc_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
-				valores_campos = v;
-			}
+
+			String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+			campos = c;
+			String v[] = {nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+			valores_campos = v;
 			
 			campo_id = "id_vet";
 			id = valores.get("id_vet");
@@ -224,24 +215,16 @@ public class UtilizadorServlet extends HttpServlet {
 			String estado_dono = valores.get("estado");
 			
 			table = "Donos";
-			
-			if (!password_dono.equals(""))
-			{
-				String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
-				campos = a;
-				String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, hashPassword(password_dono), estado_dono};
-				valores_campos = b;	
-			}
-			else
-			{
-				String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "estado"};
-				campos = a;
-				String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, estado_dono};
-				valores_campos = b;	
-			}
+			System.out.println(password_dono);
+
+			String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "estado"};
+			campos = a;
+			String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, estado_dono};
+			valores_campos = b;	
 			
 			campo_id = "id_dono";
 			id = valores.get("id_dono");
+			break;
 			
 			case "/SafePetDAI/insurers":
 			String nome_seg = valores.get("nome_seg");
@@ -253,20 +236,10 @@ public class UtilizadorServlet extends HttpServlet {
 			
 			table = "Seguradoras";
 			
-			if (!pass_seg.equals(""))
-			{
-				String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
-				campos = d;
-				String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
-				valores_campos = e;
-			}
-			else
-			{
-				String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "estado"};
-				campos = d;
-				String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, estado_seg};
-				valores_campos = e;
-			}
+			String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
+			campos = d;
+			String e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
+			valores_campos = e;
 			
 			campo_id = "id_seg";
 			id = valores.get("id_seg");
@@ -289,22 +262,15 @@ public class UtilizadorServlet extends HttpServlet {
 	protected void doDelete (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//CORS
 		response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
-		response.setHeader("Access-Control-Allow-Methods", "GET");
-		
-		
+		response.setHeader("Access-Control-Allow-Methods", "DELETE");
+			
 		String idcoluna = "";
 		String id = "";
 		String table = "";
 		String url = request.getRequestURI();
-		String route = "";
-		String split_url[] = url.split("/");
-		for (int i = 0; i < split_url.length; i++) 
-		{ 
-			if (i < 2)
-				route += "/" + split_url[i+1];
-			else if (i == 3)
-				id = split_url[i];
-		}
+		
+		Map<String, String> valores = URLHelper.UrlValues(url);
+	    String route = valores.get("route");
 		
 		System.out.println(route);
 		System.out.println(id);
@@ -313,17 +279,22 @@ public class UtilizadorServlet extends HttpServlet {
 			case "/SafePetDAI/vets":
 				table = "Veterinarios";
 				idcoluna = "id_vet";
+				id = valores.get(idcoluna);
 				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/owners":
 				table = "Donos";
 				idcoluna = "id_dono";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 				
 			case "/SafePetDAI/insurers":
 				table = "Seguradoras";
 				idcoluna = "id_seg";
+				id = valores.get(idcoluna);
+				System.out.println(id);
 				break;
 		}
 		
