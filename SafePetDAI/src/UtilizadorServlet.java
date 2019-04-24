@@ -103,9 +103,8 @@ public class UtilizadorServlet extends HttpServlet {
 		switch(request.getRequestURI()) {
 		
 		case "/SafePetDAI/vets" :
-		String id_vet = request.getParameter("id_vet"); //os que estao em "" sao para dar ao front
+//os que estao em "" sao para dar ao front
 		String nome_vet = request.getParameter("nome_vet");
-		String data_nasc_vet = request.getParameter("data_nasc_vet");
 		String pass_vet = request.getParameter("pass_vet");
 		String telemovel_vet = request.getParameter("telemovel_vet");
 		String morada_vet = request.getParameter("morada_vet");
@@ -113,16 +112,17 @@ public class UtilizadorServlet extends HttpServlet {
 		String id_seg = request.getParameter("id_seg");
 		String estado_vet = request.getParameter("estado");
 		
+		System.out.println(nome_vet + "\n" + pass_vet + "\n" + telemovel_vet + "\n" + morada_vet + "\n" + email_vet + "\n" + id_seg + "\n" + estado_vet);
+		
 		table = "Veterinarios";
 		//nomes da BD
-		String c[] = {"id_vet", "nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+		String c[] = {"nome_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
 		colunas = c;
-		Object v[] = {id_vet, nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+		Object v[] = {nome_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
 		valores = v;
 		break;
 		
 		case "/SafePetDAI/owners":
-		String id_dono = request.getParameter("id_dono");
 		String nome_dono = request.getParameter("nome_dono");
 		String morada_dono = request.getParameter("morada_dono");
 		String telemovel_dono = request.getParameter("telemovel_dono");
@@ -131,14 +131,13 @@ public class UtilizadorServlet extends HttpServlet {
 		String estado_dono = request.getParameter("estado");
 		
 		table = "Donos";
-		String a[] = {"id_dono", "nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
+		String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "password_dono", "estado"};
 		colunas = a;
-		Object b[] = {id_dono, nome_dono, morada_dono, telemovel_dono,  email_dono, hashPassword(password_dono), estado_dono};
+		Object b[] = {nome_dono, morada_dono, telemovel_dono,  email_dono, hashPassword(password_dono), estado_dono};
 		valores = b;		
 		break;
 		
 		case "/SafePetDAI/insurers":
-		String id_segu = request.getParameter("id_seg");
 		String nome_seg = request.getParameter("nome_seg");
 		String morada_seg = request.getParameter("morada_seg");
 		String telemovel_seg = request.getParameter("telemovel_seg");
@@ -147,9 +146,9 @@ public class UtilizadorServlet extends HttpServlet {
 		String estado_seg = request.getParameter("estado");
 		
 		table = "Seguradoras";
-		String d[] = {"id_seg", "nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
+		String d[] = {"nome_seg", "morada_seg", "telefone_seg",  "email_seg", "pass_seg", "estado"};
 		colunas = d;
-		Object e[] = {id_segu, nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
+		Object e[] = {nome_seg, morada_seg, telemovel_seg,  email_seg, hashPassword(pass_seg), estado_seg};
 		valores = e;
 		break;
 		
@@ -186,7 +185,6 @@ public class UtilizadorServlet extends HttpServlet {
 
 			case "/SafePetDAI/vets" :
 			String nome_vet = valores.get("nome_vet");
-			String data_nasc_vet = valores.get("data_nasc_vet");
 			String pass_vet = valores.get("pass_vet");
 			String telemovel_vet = valores.get("telemovel_vet");
 			String morada_vet = valores.get("morada_vet");
@@ -197,9 +195,9 @@ public class UtilizadorServlet extends HttpServlet {
 			table = "Veterinarios";
 			//nomes da BD
 
-			String c[] = {"nome_vet", "data_nasc_vet", "pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+			String c[] = {"nome_vet","pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
 			campos = c;
-			String v[] = {nome_vet, data_nasc_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+			String v[] = {nome_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
 			valores_campos = v;
 			
 			campo_id = "id_vet";
