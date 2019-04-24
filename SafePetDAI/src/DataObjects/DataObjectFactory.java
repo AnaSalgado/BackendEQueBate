@@ -32,7 +32,7 @@ public class DataObjectFactory
 				
 			case "Animais":
 				o = new Animal(valores.get("id_animal"),valores.get("nome_animal"),valores.get("raca"),valores.get("especie"),
-						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"),valores.get("ativo"));
+						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"),valores.get("ativo"), valores.get("genero"));
 				break;
 				
 			case "Boletins":
@@ -72,7 +72,7 @@ public class DataObjectFactory
 	
 			case "Veterinarios":
 				o = new Veterinario(valores.get("email_vet"),valores.get("pass_vet"),valores.get("id_vet"),valores.get("nome_vet"),
-						valores.get("data_nasc_vet"),valores.get("telemovel_vet"),valores.get("morada_vet"),valores.get("id_seg"),valores.get("estado"));
+						valores.get("telemovel_vet"),valores.get("morada_vet"),valores.get("id_seg"),valores.get("estado"));
 				break;
 		}
 		
