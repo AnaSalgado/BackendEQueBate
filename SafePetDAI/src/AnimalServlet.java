@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Animal_servlet
  */
-@WebServlet (urlPatterns = {"/animals/*", "/newsletters/*","/diseases/*","/vaccines/*","/observations/*"})
+@WebServlet (urlPatterns = {"/animals/*","/diseases/*","/vaccines/*","/observations/*"})
 public class AnimalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -65,10 +65,6 @@ public class AnimalServlet extends HttpServlet {
 			case "/SafePetDAI/animals":
 				table = "Animais";
 			break;
-			
-			case "/SafePetDAI/newsletters":
-				table = "Boletins";
-			break;
 				
 			case "/SafePetDAI/diseases":
 				table = "Doencas";
@@ -116,36 +112,26 @@ public class AnimalServlet extends HttpServlet {
 		String data_nasc = request.getParameter("data_nasc");
 		String id_seg = request.getParameter("id_seg");
 		String id_dono = request.getParameter("id_dono");
+		String id_vet = request.getParameter("id_vet");
 		String ativo = request.getParameter("ativo");
 		String genero = request.getParameter("genero");
 		
 		table = "Animais";
-		String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo", "genero"};
+		String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "id_vet", "ativo", "genero"};
 		colunas = c;
-		Object v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo, genero};
+		Object v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, id_vet, ativo, genero};
 		valores = v;
-		break;
-		
-		case "/SafePetDAI/newsletters":
-			String id_animal2 = request.getParameter("id_animal");
-			String id_vet = request.getParameter("id_vet");
-			
-			table = "Boletins";
-			String a[] = {"id_animal", "id_vet"};
-			colunas = a;
-			Object b[] = {id_animal2, id_vet};
-			valores = b;
 		break;
 		
 		case "/SafePetDAI/diseases":
 			String nome_doenca = request.getParameter("nome_doenca");
 			String descricao_doenca = request.getParameter("descricao_doenca");
-			String id_bol2 = request.getParameter("id_bol");
+			String id_animal = request.getParameter("id_animal");
 			
 			table = "Doencas";
-			String d[] = {"nome_doenca", "descricao_doenca", "id_bol"};
+			String d[] = {"nome_doenca", "descricao_doenca", "id_animal"};
 			colunas = d;
-			Object e[] = {nome_doenca, descricao_doenca, id_bol2};
+			Object e[] = {nome_doenca, descricao_doenca, id_animal};
 			valores = e;
 		break;
 		
@@ -153,24 +139,24 @@ public class AnimalServlet extends HttpServlet {
 			String nome_vac = request.getParameter("nome_vac");
 			String descricao_vac = request.getParameter("descricao_vac");
 			String data_validade = request.getParameter("data_validade");
-			String id_bol3 = request.getParameter("id_bol");
+			String id_animal2 = request.getParameter("id_animal");
 			
 			table = "Vacinas";
-			String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_bol"};
+			String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_animal"};
 			colunas = f;
-			Object g[] = {nome_vac, descricao_vac, data_validade, id_bol3};
+			Object g[] = {nome_vac, descricao_vac, data_validade, id_animal2};
 			valores = g;
 		break;
 		
 		case "/SafePetDAI/observations":
 			String data_observ = request.getParameter("data_observ");
 			String descricao = request.getParameter("descricao");
-			String id_bol4 = request.getParameter("id_bol");
+			String id_animal3 = request.getParameter("id_animal");
 			
 			table = "Observacoes";
-			String t[] = {"data_observ", "descricao", "id_bol"};
+			String t[] = {"data_observ", "descricao", "id_animal"};
 			colunas = t;
-			Object h[] = {data_observ, descricao, id_bol4};
+			Object h[] = {data_observ, descricao, id_animal3};
 			valores = h;
 		break;
 		}
@@ -213,41 +199,29 @@ public class AnimalServlet extends HttpServlet {
 				String data_nasc = valores.get("data_nasc");
 				String id_seg = valores.get("id_seg");
 				String id_dono = valores.get("id_dono");
+				String id_vet = valores.get("id_vet");
 				String ativo = valores.get("ativo");
 				String genero = valores.get("genero");
 				
 				table = "Animais";
-				String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "ativo", "genero"};
+				String c[] = {"nome_animal", "raca", "especie", "data_nasc", "id_seg", "id_dono", "id_vet", "ativo", "genero"};
 				campos = c;
-				String v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, ativo, genero};
+				String v[] = {nome_animal, raca, especie, data_nasc, id_seg, id_dono, id_vet, ativo, genero};
 				valores_campos = v;
 				
 				campo_id = "id_animal";
 				id = valores.get("id_animal");
 				break;
 				
-				case "/SafePetDAI/newsletters":
-					String id_animal2 = valores.get("id_animal");
-					String id_vet = valores.get("id_vet");
-					
-					table = "Boletins";
-					String a[] = {"id_animal", "id_vet"};
-					campos = a;
-					String b[] = {id_animal2, id_vet};
-					valores_campos = b;
-					campo_id = "id_bol";
-					id = valores.get("id_bol");
-				break;
-				
 				case "/SafePetDAI/diseases":
 					String nome_doenca = valores.get("nome_doenca");
 					String descricao_doenca = valores.get("descricao_doenca");
-					String id_bol2 = valores.get("id_bol");
+					String id_animal = valores.get("id_animail");
 					
 					table = "Doencas";
-					String d[] = {"nome_doenca", "descricao_doenca", "id_bol"};
+					String d[] = {"nome_doenca", "descricao_doenca", "id_animal"};
 					campos = d;
-					String e[] = {nome_doenca, descricao_doenca, id_bol2};
+					String e[] = {nome_doenca, descricao_doenca, id_animal};
 					valores_campos = e;
 					campo_id = "id_doenca";
 					id = valores.get("id_doenca");
@@ -257,12 +231,12 @@ public class AnimalServlet extends HttpServlet {
 					String nome_vac = valores.get("nome_vac");
 					String descricao_vac = valores.get("descricao_vac");
 					String data_validade = valores.get("data_validade");
-					String id_bol3 = valores.get("id_bol");
+					String id_animal2 = valores.get("id_animal");
 					
 					table = "Vacinas";
-					String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_bol"};
+					String f[] = {"nome_vac", "descricao_vac", "data_validade", "id_animal"};
 					campos = f;
-					String g[] = {nome_vac, descricao_vac, data_validade, id_bol3};
+					String g[] = {nome_vac, descricao_vac, data_validade, id_animal2};
 					valores_campos = g;
 					campo_id = "id_vacina";
 					id = valores.get("id_vacina");
@@ -271,12 +245,12 @@ public class AnimalServlet extends HttpServlet {
 				case "/SafePetDAI/observations":
 					String data_observ = valores.get("data_observ");
 					String descricao = valores.get("descricao");
-					String id_bol4 = valores.get("id_bol");
+					String id_animal3 = valores.get("id_animal");
 					
 					table = "Observacoes";
-					String t[] = {"data_observ", "descricao", "id_bol"};
+					String t[] = {"data_observ", "descricao", "id_animal"};
 					campos = t;
-					String h[] = {data_observ, descricao, id_bol4};
+					String h[] = {data_observ, descricao, id_animal3};
 					valores_campos = h;
 					campo_id = "id_obser";
 					id = valores.get("id_obser");
@@ -322,13 +296,6 @@ public class AnimalServlet extends HttpServlet {
 			case "/SafePetDAI/animals":
 				table = "Animais";
 				idcoluna = "id_animal";
-				id = valores.get(idcoluna);
-				System.out.println(id);
-				break;
-				
-			case "/SafePetDAI/newsletters":
-				table = "Boletins";
-				idcoluna = "id_bol";
 				id = valores.get(idcoluna);
 				System.out.println(id);
 				break;
