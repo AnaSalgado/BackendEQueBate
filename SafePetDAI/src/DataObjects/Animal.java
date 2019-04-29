@@ -16,11 +16,15 @@ public class Animal {
 	
 	public String id_dono;
 	
+	public String id_vet;
+	
 	public String ativo;
 	
+	public String genero;
 	
 	
-	public Animal (String id_animal, String nome_animal, String raca, String especie, String data_nasc, String id_seg, String id_dono, String ati)
+	
+	public Animal (String id_animal, String nome_animal, String raca, String especie, String data_nasc, String id_seg, String id_dono, String id_vet, String ati, String genero)
 	{
 		this.id_animal = id_animal;
 	
@@ -36,7 +40,11 @@ public class Animal {
 		
 		this.id_dono = id_dono;
 		
+		this.id_vet = id_vet;
+		
 		this.ativo = ati;
+		
+		this.genero = genero;
 		
 	}
 	

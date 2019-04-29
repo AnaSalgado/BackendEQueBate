@@ -8,10 +8,10 @@ public class Doenca {
 
 	public String descricao_doenca;
 
-	public String id_bol;
+	public String id_animal;
 
 	
-	public Doenca (String id_doenca, String nome_doenca, String descricao_doenca, String id_bol)
+	public Doenca (String id_doenca, String nome_doenca, String descricao_doenca, String id_animal)
 	{
 		this.id_doenca = id_doenca;
 	
@@ -19,7 +19,7 @@ public class Doenca {
 	
 		this.descricao_doenca = descricao_doenca;
 	
-		this.id_bol= id_bol;
+		this.id_animal= id_animal;
 	
 	}
 	

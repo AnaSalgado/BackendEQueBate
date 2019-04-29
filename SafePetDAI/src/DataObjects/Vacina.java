@@ -10,10 +10,10 @@ public class Vacina {
 
 	public String data_validade;
 
-	public String id_bol;
+	public String id_animal;
 	
 	
-	public Vacina (String  id_vacina, String nome_vac, String descricao_vac, String data_validade, String id_bol)
+	public Vacina (String  id_vacina, String nome_vac, String descricao_vac, String data_validade, String id_animal)
 	{
 		this. id_vacina =  id_vacina;
 	
@@ -23,7 +23,7 @@ public class Vacina {
 	
 		this.data_validade = data_validade;
 		
-		this.id_bol = id_bol;
+		this.id_animal = id_animal;
 	
 }
 }

@@ -32,20 +32,16 @@ public class DataObjectFactory
 				
 			case "Animais":
 				o = new Animal(valores.get("id_animal"),valores.get("nome_animal"),valores.get("raca"),valores.get("especie"),
-						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"),valores.get("ativo"), valores.get("genero"));
+						valores.get("data_nasc"),valores.get("id_seg"),valores.get("id_dono"), valores.get("id_vet"), valores.get("ativo"), valores.get("genero"));
 				break;
-				
-			case "Boletins":
-				o = new Boletim(valores.get("id_bol"),valores.get("id_animal"),valores.get("id_vet"));
-				break;
-				
+
 			case "CriteriosUtilizador":
 				o = new CriterioUtilizador(valores.get("id_animal"),valores.get("ritmo_min"),valores.get("ritmo_max"),
 						valores.get("raio"),valores.get("latitude"),valores.get("longitude"));
 				break;
 				
 			case "Doencas":
-				o = new Doenca(valores.get("id_doenca"),valores.get("nome_doenca"),valores.get("descricao_doenca"),valores.get("id_bol"));
+				o = new Doenca(valores.get("id_doenca"),valores.get("nome_doenca"),valores.get("descricao_doenca"),valores.get("id_animal"));
 				break;
 				
 			case "Donos":
@@ -54,7 +50,7 @@ public class DataObjectFactory
 				break;
 	
 			case "Observacoes":
-				o = new Observacao(valores.get("id_obser"),valores.get("data_observ"),valores.get("descricao"),valores.get("id_bol"));
+				o = new Observacao(valores.get("id_obser"),valores.get("data_observ"),valores.get("descricao"),valores.get("id_animal"));
 				break;
 	
 			case "Seguradoras":
@@ -67,7 +63,7 @@ public class DataObjectFactory
 				break;
 	
 			case "Vacinas":
-				o = new Vacina(valores.get("id_vacina"),valores.get("nome_vac"),valores.get("descricao_vac"),valores.get("data_validade"),valores.get("id_bol"));
+				o = new Vacina(valores.get("id_vacina"),valores.get("nome_vac"),valores.get("descricao_vac"),valores.get("data_validade"),valores.get("id_animal"));
 				break;
 	
 			case "Veterinarios":

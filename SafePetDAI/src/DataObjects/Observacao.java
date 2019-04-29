@@ -8,11 +8,11 @@ public class Observacao {
 
 	public String descricao;
 
-	public String id_bol;
+	public String id_animal;
 	
 	
 	
-	public Observacao (String id_obser, String data_observ, String descricao, String id_bol)
+	public Observacao (String id_obser, String data_observ, String descricao, String id_animal)
 	{
 		this.id_obser = id_obser;
 	
@@ -20,7 +20,7 @@ public class Observacao {
 	
 		this.descricao = descricao;
 	
-		this.id_bol = id_bol;
+		this.id_animal = id_animal;
 		
 	}
 
