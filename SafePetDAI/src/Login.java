@@ -48,57 +48,13 @@ public class Login extends HttpServlet {
 			response.setHeader("Access-Control-Allow-Origin", "https://preview.c9users.io");
 			response.setHeader("Access-Control-Allow-Methods", "POST");
 		
-		    String email = "email";
-		    String pass = "pass";
-		    String table = "";
-		    String wheremail = "";
-		    String wherepass = "";
-		    System.out.println(email + "\n" + pass);
-		    switch(request.getRequestURI()) {
-		    case "/SafePetDAI/login":
-		    table = request.getParameter("table");
-		    System.out.println(table);
-		    
-		    if (table!=null && table.equals("Donos")) {
-		    	 String emaild = request.getParameter("email");
-		    	 String passd = request.getParameter("pass");
-		    	 email=emaild;
-		    	 pass=passd;
-		    	// table = "Donos";
-		    	 wheremail = "email_dono";
-		    	 wherepass = "password_dono";
-		    	 System.out.println(emaild + "\n" + passd);
-		    }else {
-		    if (table!=null && table.equals("Seguradoras")) {
-		    	String emaili = request.getParameter("email");
-		    	String passi = request.getParameter("pass");
-		    	email=emaili;
-		    	pass=passi;
-		    	//table = "Seguradoras";
-		    	wheremail = "email_seg";
-		    	wherepass = "pass_seg";
-		    	System.out.println(emaili + "\n" + passi);
-		    }else {
-		    if (table!=null && table.equals("Veterinarios")) {
-		    	String emailv = request.getParameter("email");
-		    	String passv = request.getParameter("pass");
-		    	email=emailv;
-		    	pass=passv;
-		    	//table = "Veterinarios";
-		    	wheremail = "email_vet";
-		    	wherepass = "pass_vet";
-		    	System.out.println(emailv + "\n" + passv);
-		    } else {
-		    	System.out.println("Table incorreta");
-		    }
-		    }
-		    }
-		    break;
-		    }
-		    
-		    System.out.println(email +"\n" + pass + "\n" + table + "\n" + wheremail + "\n" + wherepass);
+			String email = request.getParameter("email");
+			String pass = request.getParameter("pass");
+			//String email = "teste@teste.com";
+			//String pass = "1234";
+		    System.out.println(email +"\n" + pass);
 		    try {
-				ConnectionDB.checkUser(email, pass, table, wheremail, wherepass);
+				ConnectionDB.checkUser(email, pass);
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
