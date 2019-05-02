@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import DataObjects.DataObjectFactory;
+
 import java.util.ArrayList;
-import DataObjects.User;
+
+import org.mindrot.jbcrypt.BCrypt;
+
+import DataObjects.*;
 
 public class ConnectionDB {
 
@@ -38,9 +41,7 @@ public class ConnectionDB {
 	
 	}
 		return user_list;
-	}
-	
-	
+	}	
 	
 	public static String SelectQuery(String table) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
@@ -207,4 +208,34 @@ public class ConnectionDB {
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.execute();		
 	}
+	
+	public static String checkUser (String email, String pass, String table, String wheremail, String wherepass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			connection = DriverManager.getConnection(url, username, password);
+			String query = "SELECT * FROM " + table + " WHERE " + wheremail + "=" + email + " AND " + wherepass + "=" + pass; 
+			String query2 = "SELECT " + wherepass + " FROM " + table + " WHERE " + wheremail + "=" + email;
+			System.out.println(query);
+			System.out.println(query2);
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			PreparedStatement sp = connection.prepareStatement(query2);
+			
+			ResultSet rs = ps.executeQuery();
+			ResultSet sr = sp.executeQuery();
+			rs.next();
+			sr.next();
+			String fim ="inicio";
+			
+			String password = sr.getString(wherepass);
+			
+			if(BCrypt.checkpw(pass, password)) {
+			    fim = "Dados corretos!";
+		} else {
+			fim = "Dados incorretos"; }
+			
+			System.out.println(fim);	
+	return fim;
+	}
+	
 }
