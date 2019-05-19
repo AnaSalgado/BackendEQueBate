@@ -1,40 +1,13 @@
 
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoDatabase;
 
-/**
- * Servlet implementation class ConnectionMongoDB
- */
-@WebServlet("/ConnectionMongoDB")
-public class ConnectionMongoDB extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	MongoClient mongoClient = new MongoClient( /*"host1" , 27017*/ );
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ConnectionMongoDB() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	/* protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+public class ConnectionMongoDB {
+	static MongoClient mongoClient = new MongoClient( new MongoClientURI("mongodb://nuno123:jer0nim0@cluster1-isqt6.mongodb.net/test?retryWrites=true"));
+	static MongoDatabase db = mongoClient.getDatabase("nuno123");
+	
+	public static void testConnection(){
+		System.out.println(db.toString());
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	/*protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}*/ 
-
 }
