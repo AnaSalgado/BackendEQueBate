@@ -208,9 +208,9 @@ public class ConnectionDB {
 		PreparedStatement sp = connection.prepareStatement(query);
 		sp.execute();		
 	}
-	
-	public static String checkUser (String email, String pass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
+	public static boolean checkUser (String email, String pass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+/*
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			connection = DriverManager.getConnection(url, username, password);
 			
@@ -272,8 +272,8 @@ public class ConnectionDB {
 			String password = sr.getString("password_dono");
 			String password2 = sr2.getString("pass_vet");
 			String password3 = sr3.getString("pass_seg");
-			
-			if(BCrypt.checkpw(pass, password)) {
+			boolean vpass = BCrypt.checkpw(pass, password);
+			if(vpass) {
 			    fim = "Dados corretos!";
 		} else {
 			if(BCrypt.checkpw(pass, password2)) {
@@ -288,7 +288,59 @@ public class ConnectionDB {
 			}
 			
 			System.out.println(fim);	
-	return fim;
-	}
+	return fim;*/
+	/*
+	Class.forName("com.mysql.jdbc.Driver").newInstance();
+	connection = DriverManager.getConnection(url, username, password);
+	String query = "SELECT * FROM " + table + " WHERE " + wheremail + "='" + email + "' AND " + wherepass + "='" + pass + "'"; 
+	String query2 = "SELECT " + wherepass + " FROM " + table + " WHERE " + wheremail + "='" + email + "'";
+	System.out.println(query);
+	System.out.println(query2);
 	
+	PreparedStatement ps = connection.prepareStatement(query);
+	PreparedStatement sp = connection.prepareStatement(query2);
+	
+	ResultSet rs = ps.executeQuery();
+	ResultSet sr = sp.executeQuery();
+	rs.next();
+	sr.next();
+	String fim ="inicio";
+
+	String password = sr.getString(wherepass);
+	boolean vpass = BCrypt.checkpw(pass, password);
+	if(vpass) {
+	    fim = "Dados de Login corretos!";
+} else {
+	fim = "Dados incorretos"; }
+	
+	System.out.println(fim);	
+return fim;*/
+		
+		
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		connection = DriverManager.getConnection(url, username, password);
+		String query = "SELECT password_dono FROM Donos WHERE email_dono = '" + email + "'";
+		String query2 = "SELECT * FROM Donos WHERE email_dono = '" + email + "' AND password_dono = '" + pass + "'";
+		System.out.println(query + "\n" + query2);
+		PreparedStatement sp = connection.prepareStatement(query2);
+		PreparedStatement sp1 = connection.prepareStatement(query);
+		ResultSet rs = sp.executeQuery();
+		ResultSet rs1 = sp1.executeQuery();
+		rs.next();
+		rs1.next();
+		String password = rs1.getString("password_dono");
+		String s = "inicio";
+		boolean b;
+		
+		if(BCrypt.checkpw(pass, password)) {
+			b=true;
+			s= "Dados de Login corretos";
+			System.out.println(s);
+		}else {
+			b= false;
+			s="Dados de Login incorretos";
+			System.out.println(s);
+		}
+		return b;
+	}
 }
