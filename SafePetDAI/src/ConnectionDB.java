@@ -209,138 +209,35 @@ public class ConnectionDB {
 		sp.execute();		
 	}
 
-	public static boolean checkUser (String email, String pass) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-/*
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection = DriverManager.getConnection(url, username, password);
-			
-			String query = "SELECT * FROM Donos WHERE email_dono = '" + email + "'"+ " AND password_dono = '" + pass + "'"; 
-			String query3 = "SELECT * FROM Veterinarios WHERE email_vet = '" + email + "'"+ " AND pass_vet = '" + pass + "'"; 
-			String query4 = "SELECT * FROM Seguradoras WHERE email_seg = '" + email + "'"+ " AND pass_seg = '" + pass + "'"; 
-			
-			String query2 = "SELECT password_dono FROM Donos WHERE email_dono = '" + email + "'";
-			String query5 = "SELECT passvet FROM Veterinarios WHERE email_vet = '" + email + "'";
-			String query6 = "SELECT pass_seg FROM Seguradoras WHERE email_seg = '" + email + "'";
-			
-			System.out.println(query + "\n" + query3 + "\n" + query4);
-			System.out.println(query2 + "\n" + query5 + "\n" + query6);
-			ArrayList<String[]> list_users = new ArrayList<String[]>();
-			
-			PreparedStatement ps = connection.prepareStatement(query);
-			PreparedStatement ps2 = connection.prepareStatement(query3);
-			PreparedStatement ps3 = connection.prepareStatement(query4);
-			PreparedStatement sp = connection.prepareStatement(query2);
-			PreparedStatement sp2 = connection.prepareStatement(query5);
-			PreparedStatement sp3 = connection.prepareStatement(query6);
-			
-			ResultSet rs = ps.executeQuery();
-			ResultSet rs2 = ps2.executeQuery();
-			ResultSet rs3 = ps3.executeQuery();
-			
-			int columnCount = rs.getMetaData().getColumnCount();
-			int columnCount2 = rs2.getMetaData().getColumnCount();
-			int columnCount3 = rs3.getMetaData().getColumnCount();
-			
-			while(rs.next() || rs2.next() || rs3.next()) {
-				String[] row = new String[columnCount];
-				String[] row2 = new String[columnCount2];
-				String[] row3 = new String[columnCount3];
-				
-				for(int i = 0; i<columnCount; i++) {
-					row[i] = rs.getString(i + 1);
-				}
-				list_users.add(row);
-				for(int i = 0; i<columnCount2; i++) {
-					row2[i] = rs2.getString(i + 1);
-				}
-				list_users.add(row2);
-				for(int i = 0; i<columnCount3; i++) {
-					row3[i] = rs3.getString(i + 1);
-				}
-				list_users.add(row3);
-			}
-			
-			ResultSet sr = sp.executeQuery();
-			ResultSet sr2 = sp2.executeQuery();
-			ResultSet sr3 = sp3.executeQuery();
-			
-			sr.next();
-			sr2.next();
-			sr3.next();
-			String fim ="inicio";
-			
-			String password = sr.getString("password_dono");
-			String password2 = sr2.getString("pass_vet");
-			String password3 = sr3.getString("pass_seg");
-			boolean vpass = BCrypt.checkpw(pass, password);
-			if(vpass) {
-			    fim = "Dados corretos!";
-		} else {
-			if(BCrypt.checkpw(pass, password2)) {
-			    fim = "Dados corretos!";
-		}else {
-			if(BCrypt.checkpw(pass, password3)) {
-			    fim = "Dados corretos!";
-		}else {
-			fim = "Dados incorretos";
-			}
-			}
-			}
-			
-			System.out.println(fim);	
-	return fim;*/
-	/*
-	Class.forName("com.mysql.jdbc.Driver").newInstance();
-	connection = DriverManager.getConnection(url, username, password);
-	String query = "SELECT * FROM " + table + " WHERE " + wheremail + "='" + email + "' AND " + wherepass + "='" + pass + "'"; 
-	String query2 = "SELECT " + wherepass + " FROM " + table + " WHERE " + wheremail + "='" + email + "'";
-	System.out.println(query);
-	System.out.println(query2);
-	
-	PreparedStatement ps = connection.prepareStatement(query);
-	PreparedStatement sp = connection.prepareStatement(query2);
-	
-	ResultSet rs = ps.executeQuery();
-	ResultSet sr = sp.executeQuery();
-	rs.next();
-	sr.next();
-	String fim ="inicio";
 
-	String password = sr.getString(wherepass);
-	boolean vpass = BCrypt.checkpw(pass, password);
-	if(vpass) {
-	    fim = "Dados de Login corretos!";
-} else {
-	fim = "Dados incorretos"; }
-	
-	System.out.println(fim);	
-return fim;*/
-		
-		
+	public static boolean checkUser (String email, String pass, String wheremail, String wherepass, String table) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(url, username, password);
-		String query = "SELECT password_dono FROM Donos WHERE email_dono = '" + email + "'";
-		String query2 = "SELECT * FROM Donos WHERE email_dono = '" + email + "' AND password_dono = '" + pass + "'";
-		System.out.println(query + "\n" + query2);
-		PreparedStatement sp = connection.prepareStatement(query2);
-		PreparedStatement sp1 = connection.prepareStatement(query);
-		ResultSet rs = sp.executeQuery();
-		ResultSet rs1 = sp1.executeQuery();
-		rs.next();
-		rs1.next();
-		String password = rs1.getString("password_dono");
-		String s = "inicio";
-		boolean b;
 		
-		if(BCrypt.checkpw(pass, password)) {
-			b=true;
-			s= "Dados de Login corretos";
-			System.out.println(s);
-		}else {
-			b= false;
-			s="Dados de Login incorretos";
-			System.out.println(s);
-		}
-		return b;
-	}
+		String query = "SELECT * FROM " + table + " WHERE " + wheremail + "='" + email + "' AND " + wherepass + "='" + pass + "'"; 
+		String query2 = "SELECT " + wherepass + " FROM " + table + " WHERE " + wheremail + "='" + email + "'";
+		System.out.println(query);
+		System.out.println(query2);
+		boolean b = false;
+		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement sp = connection.prepareStatement(query2);
+		
+		ResultSet rs = ps.executeQuery();
+		ResultSet sr = sp.executeQuery();
+		rs.next();
+		sr.next();
+		String fim ="inicio";
+		String password = sr.getString(wherepass);
+		boolean vpass = BCrypt.checkpw(pass, password);
+		if(vpass) {
+		    fim = "Dados de Login corretos!";
+		    System.out.println(fim);
+		    b=true;
+	} else {
+		fim = "Dados incorretos"; 
+		System.out.println(fim);
+		b=false;}	
+
+	return b;
+}
 }
