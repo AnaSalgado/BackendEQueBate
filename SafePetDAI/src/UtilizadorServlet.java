@@ -184,8 +184,8 @@ public class UtilizadorServlet extends HttpServlet {
 		    switch(route){
 
 			case "/SafePetDAI/vets" :
+				if(!valores.containsKey("pass_vet")) {
 			String nome_vet = valores.get("nome_vet");
-			String pass_vet = valores.get("pass_vet");
 			String telemovel_vet = valores.get("telemovel_vet");
 			String morada_vet = valores.get("morada_vet");
 			String email_vet = valores.get("email_vet");
@@ -195,25 +195,45 @@ public class UtilizadorServlet extends HttpServlet {
 			table = "Veterinarios";
 			//nomes da BD
 
-			String c[] = {"nome_vet","pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+			String c[] = {"nome_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
 			campos = c;
-			String v[] = {nome_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+			String v[] = {nome_vet, telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
 			valores_campos = v;
 			
 			campo_id = "id_vet";
 			id = valores.get("id_vet");
+				} else {
+					String nome_vet = valores.get("nome_vet");
+					String pass_vet = valores.get("pass_vet");
+					String telemovel_vet = valores.get("telemovel_vet");
+					String morada_vet = valores.get("morada_vet");
+					String email_vet = valores.get("email_vet");
+					String id_seg = valores.get("id_seg");
+					String estado_vet = valores.get("estado");
+					
+					table = "Veterinarios";
+					//nomes da BD
+
+					String c[] = {"nome_vet","pass_vet", "telemovel_vet", "morada_vet", "email_vet", "id_seg", "estado"};
+					campos = c;
+					String v[] = {nome_vet, hashPassword(pass_vet), telemovel_vet, morada_vet, email_vet, id_seg, estado_vet};
+					valores_campos = v;
+					
+					campo_id = "id_vet";
+					id = valores.get("id_vet");
+					
+				}
 			break;
 			
 			case "/SafePetDAI/owners":
+				if(!valores.containsKey("password_dono")) {
 			String nome_dono = valores.get("nome_dono");
 			String morada_dono = valores.get("morada_dono");
 			String telemovel_dono = valores.get("telemovel_dono");
 			String email_dono = valores.get("email_dono");
-			String password_dono = valores.get("password_dono");
 			String estado_dono = valores.get("estado");
 			
 			table = "Donos";
-			System.out.println(password_dono);
 
 			String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "estado"};
 			campos = a;
@@ -222,6 +242,25 @@ public class UtilizadorServlet extends HttpServlet {
 			
 			campo_id = "id_dono";
 			id = valores.get("id_dono");
+				} else {
+					String nome_dono = valores.get("nome_dono");
+					String morada_dono = valores.get("morada_dono");
+					String telemovel_dono = valores.get("telemovel_dono");
+					String email_dono = valores.get("email_dono");
+					String password_dono = valores.get("password_dono");
+					String estado_dono = valores.get("estado");
+					
+					table = "Donos";
+					System.out.println(password_dono);
+
+					String a[] = {"nome_dono", "morada_dono", "telemovel_dono",  "email_dono", "estado"};
+					campos = a;
+					String b[] = {nome_dono, morada_dono, telemovel_dono, email_dono, estado_dono};
+					valores_campos = b;	
+					
+					campo_id = "id_dono";
+					id = valores.get("id_dono");
+				}
 			break;
 			
 			case "/SafePetDAI/insurers":
